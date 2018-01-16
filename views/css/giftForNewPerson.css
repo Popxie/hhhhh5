@@ -1,0 +1,34 @@
+* {
+  margin: 0;
+}
+a {
+  text-decoration: none!important;
+}
+html {
+  min-height: 100%;
+  height: 100%;
+}
+body {
+  background: #fff;
+  min-height: 100%;
+  position: relative;
+}
+.container {
+  height: 100%;
+  padding: 0.26666667rem;
+}
+.container h3,
+.container h2 {
+  text-align: center;
+}
+.container h3 {
+  padding: 0.26666667rem 0;
+}
+.container h4 {
+  padding: 0.13333333rem 0;
+}
+.container p {
+  padding: 0.08rem 0;
+  line-height: 0.53333333rem;
+  font-size: 0.32rem;
+}
