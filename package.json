@@ -27,6 +27,7 @@
     "gulp-rev-collector": "^1.2.2",
     "gulp-uglify": "^3.0.0",
     "gulp-watch": "^4.3.11",
+    "mint-ui": "^2.2.13",
     "run-sequence": "^2.2.0"
   }
 }

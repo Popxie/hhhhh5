@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta region="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>站点详情</title>
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
+    <!-- 这两个js要先引入 否则会引起样式的生效速度,用户体验不好 -->
+    <script src="../../commonJs/lib-flexible.js"></script>
+    <link rel="stylesheet" href="../../css/mint-ui.min.css">
+    <link rel="stylesheet" href="../../css/statioDetails.css">
+    <link rel="stylesheet" href="../../css/font_icon/iconfont.css">
+</head>
+
+<body>
+    <div id="app" v-cloak class="container">
+        色
+    </div>
+    <script src="../../commonJs/lib.min.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                dataList: []
+            },
+            created() {
+                console.log('sessionStorage.getItem("id"):', sessionStorage.getItem("id"));
+            },
+            methods: {
+                transferFn(data) {
+                    // 将参数格式化
+                    let result = '';
+                    for (let i in data) {
+                        result += encodeURIComponent(i) + '=' + encodeURIComponent(data[i]) + '&'
+                    }
+                    return result
+                },
+            }
+        });
+    </script>
+</body>
+
+</html>

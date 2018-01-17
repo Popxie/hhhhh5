@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta region="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>补货地点</title>
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
+    <!-- 这两个js要先引入 否则会引起样式的生效速度,用户体验不好 -->
+    <script src="../../commonJs/lib-flexible.js"></script>
+    <link rel="stylesheet" href="../../css/mint-ui.min.css">
+    <link rel="stylesheet" href="../../css/stationsList.css">
+    <link rel="stylesheet" href="../../css/font_icon/iconfont.css">
+</head>
+
+<body>
+    <div id="app" class="container">
+        <div class="flex-cont">
+            <div class="select-cont" @click="chooseProvince">
+                <span>{{province.provinceName}}</span>
+                <i class="iconfont icon-jiantouxia"></i>
+            </div>
+            <div class="select-cont" @click="chooseCity">
+                <div class="line-left"></div>
+                <span>{{city.cityName}}</span>
+                <i class="iconfont icon-jiantouxia"></i>
+                <div class="line-right"></div>
+            </div>
+            <div class="select-cont" @click="chooseDetails">
+                <span>{{area.areaName}}</span>
+                <i class="iconfont icon-jiantouxia"></i>
+            </div>
+        </div>
+        <mt-popup v-model="visibleProvince" position="bottom">
+            <div class='btn-flex-cont'>
+                <div class="btn cancle" @click="cancleClick">取消</div>
+                <div class="btn confirm" @click="confirmClick('province')">完成</div>
+            </div>
+            <mt-picker :slots="ProvinceList" @change="onProvinceChange"></mt-picker>
+        </mt-popup>
+        <mt-popup v-model="visibleCity" position="bottom">
+            <div class='btn-flex-cont'>
+                <div class="btn cancle" @click="cancleClick">取消</div>
+                <div class="btn confirm" @click="confirmClick('city')">完成</div>
+            </div>
+            <mt-picker :slots="CityList" @change="onCityChange"></mt-picker>
+        </mt-popup>
+        <mt-popup v-model="visibleArea" position="bottom">
+            <div class='btn-flex-cont'>
+                <div class="btn cancle" @click="cancleClick">取消</div>
+                <div class="btn confirm" @click="confirmClick('area')">完成</div>
+            </div>
+            <mt-picker :slots="AreaList" @change="onAreaChange"></mt-picker>
+        </mt-popup>
+
+        <div class="item-cont" v-for="(item, index) in dataList" @click="itemClick(item, index)">
+            <div class="position-cont">
+                <div class="img-cont">
+                    <img :src='item.imgUrl' alt="">
+                </div>
+                <div class="detail-cont">
+                    <strong class="title">{{item.title}}</strong>
+                    <div class="sencond-line">
+                        <p>{{item.details}}</p>
+                        <strong>{{item.distance}}</strong>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script src="../../commonJs/lib.min.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                visibleProvince: false,
+                visibleCity: false,
+                visibleArea: false,
+                province: {
+                    provinceName: '浙江',
+                    provinceId: '',
+                },
+                city: {
+                    cityName: '杭州',
+                    cityId: '',
+                },
+                area: {
+                    areaName: '西湖',
+                    areaId: ''
+                },
+                dataList: [
+                    {
+                        title: '西斗门路1',
+                        details: '西斗门路9号,福地创业园2.0',
+                        distance: '200m',
+                        imgUrl: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3345089115,4288723193&fm=27&gp=0.jpg'
+                    },
+                    {
+                        title: '西斗门路2',
+                        details: '西斗门路9号，福地创业园2.0',
+                        distance: '200m',
+                        imgUrl: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3345089115,4288723193&fm=27&gp=0.jpg'
+                    },
+                    {
+                        title: '西斗门路3',
+                        details: '西斗门路9号，福地创业园2.0',
+                        distance: '200m',
+                        imgUrl: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3345089115,4288723193&fm=27&gp=0.jpg'
+                    },
+                ],
+                ProvinceList: [{
+                    flex: 1,
+                    data: [],
+                    values: [],
+                    className: 'slot',
+                }],
+                provinceObj: {},
+                CityList: [{
+                    flex: 1,
+                    data: [],
+                    values: [],
+                    className: 'slot',
+                }],
+                cityObj: {},
+                AreaList: [{
+                    flex: 1,
+                    data: [],
+                    values: [],
+                    className: 'slot',
+                }],
+                areaObj: {},
+            },
+            created() {
+                this.getProvinceList();
+            },
+            methods: {
+                transferFn(data) {
+                    // 将参数格式化
+                    let result = '';
+                    for (let i in data) {
+                        result += encodeURIComponent(i) + '=' + encodeURIComponent(data[i]) + '&'
+                    }
+                    return result
+                },
+
+                onProvinceChange(picker, values) {
+                    if (values[0]) {
+                        // this.province.provinceName = values[0];
+                        let obj = {
+                            id: '',
+                            region: '',
+                        }
+                        obj.region = values[0];
+                        this.ProvinceList[0].data.forEach((item) => {
+                            if (item.region === obj.region) {
+                                obj.id = item.id;
+                            }
+                        })
+                        this.provinceObj = Object.assign({}, this.provinceObj, obj);
+                        console.log('this.provinceObj:', this.provinceObj);
+                    }
+                },
+                onCityChange(picker, values) {
+                    if (values[0]) {
+                        let obj = {
+                            id: '',
+                            region: '',
+                        }
+                        obj.region = values[0];
+                        this.CityList[0].data.forEach((item) => {
+                            if (item.region === obj.region) {
+                                obj.id = item.id;
+                            }
+                        })
+                        this.cityObj = Object.assign({}, this.cityObj, obj);
+                        console.log('cityObj:', this.cityObj);
+                    }
+                },
+                onAreaChange(picker, values) {
+                    if (values[0]) {
+                        let obj = {
+                            id: '',
+                            region: '',
+                        }
+                        obj.region = values[0];
+                        this.AreaList[0].data.forEach((item) => {
+                            if (item.region === obj.region) {
+                                obj.id = item.id;
+                            }
+                        })
+                        this.areaObj = Object.assign({}, this.cityObj, obj);
+                    }
+                },
+                getProvinceList() {
+                    let url = 'http://192.168.1.23:8080/api-driver-web/station/province';
+                    this.$http.get(url)
+                        .then(function (res) {
+                            this.ProvinceList[0].data = res.data.data;
+                            res.data.data.forEach((item) => {
+                                this.ProvinceList[0].values.push(item.region);
+                            })
+                            // this.$toast({
+                            //     message: res.data.err_msg,
+                            // });
+
+                        }).catch(function (err) {
+                            console.log('err:', err);
+                            this.$toast({
+                                message: '222'
+                            });
+                        });
+                },
+                getSonList(val, type) {
+                    let url = 'http://192.168.1.23:8080/api-driver-web/station/cityOrRegion/' + val;
+                    this.$http.get(url)
+                        .then((res) => {
+                            if (type === 'city' && res.data.error_code === 1) {
+                                this.CityList[0].data = res.data.data;
+                                if (res.data.data) {
+                                    res.data.data.forEach((item) => {
+                                        this.CityList[0].values.push(item.region);
+                                    })
+                                }
+                                console.log('CityList:', this.CityList);
+                            } else if(type === 'area' && res.data.error_code === 1) {
+                                this.AreaList[0].data = res.data.data;
+                                if(res.data.data) {
+                                    res.data.data.forEach((item) => {
+                                        this.AreaList[0].values.push(item.region);
+                                    })
+                                }
+                                console.log('AreaList:', this.AreaList);
+                            } else {
+                                this.$toast({
+                                    message: res.data.err_msg,
+                                });
+                            }
+                        }, (err) => {
+
+                        })
+                },
+                chooseProvince() {
+                    this.visibleProvince = true;
+                },
+                chooseCity() {
+                    this.visibleCity = true;
+                },
+                chooseDetails() {
+                    this.visibleArea = true;
+                },
+                itemClick(item, index) {
+                    console.log('item', item);
+                    console.log('index', index);
+                    sessionStorage.setItem('id',item.title);
+                    window.location.href = 'http://192.168.1.16:3001/dist/views/Station/stationDetails.html';
+                },
+                cancleClick() {
+                    this.visibleArea = this.visibleCity = this.visibleProvince = false;
+                },
+                confirmClick(val) {
+                    if (val === 'province') {
+                        this.province.provinceName = this.provinceObj.region;
+                        this.province.provinceId = this.provinceObj.id;
+                        this.visibleProvince = false;
+                        this.CityList[0].values = [];
+                        this.getSonList(this.province.provinceId, 'city');
+                    } else if (val === 'city') {
+                        this.city.cityName = this.cityObj.region;
+                        this.city.cityId = this.cityObj.id;
+                        this.visibleCity = false;
+                        this.AreaList[0].values = [];
+                        this.getSonList(this.city.cityId, 'area');
+                    } else {
+                        this.area.areaName = this.areaObj.region;
+                        this.area.areaId = this.areaObj.id;
+                        this.visibleArea = false;
+                    }
+
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -16,36 +16,36 @@ const gulp = require('gulp'), //本地安装gulp所用到的地方
 
 /*静态文件地址*/
 const paths = {
-    css: 'views/css/',
-    less: 'views/static/less/',
-    scripts: 'views/js/',
-    common: 'views/commonJs/',
-    images: 'views/img/',
-    html: 'views/*.html',
+    css: 'src/css/',
+    less: 'src/static/less/',
+    scripts: 'src/js/',
+    common: 'src/commonJs/',
+    images: 'src/img/',
+    activity: 'src/views/Activity/*.html',
+    station: 'src/views/Station/*.html',
     build: 'dist/'
 };
 
-const dist = {
+const outPaths = {
     css: 'dist/css/',
     js: 'dist/js/',
-    html: 'dist/',
-    common: 'dist/commonJs/'
+    common: 'dist/commonJs/',
+    build: 'dist/'
 };
 
 
 // 删除dist文件夹
 gulp.task('del', function () {
     return del ([
-        dist.css+'*.css',
-        dist.js+'*.js',
-        dist.html+'*.html'
+        outPaths.css+'*.css',
+        outPaths.js+'*.js',
     ])
 });
 
 // 输出不编译的 commonJs文件下的所有js  因为 vue  axios 经过编译以后无法使用会报错
 gulp.task('out', function () {
     gulp.src([paths.common+'*.js'])
-        .pipe(gulp.dest(dist.common))
+        .pipe(gulp.dest(outPaths.common))
 });
 
 // less编译
@@ -53,7 +53,7 @@ gulp.task('less', function () {
     return watch(paths.less + '*.less', function() { // 时刻监控less文件的变化
         gulp.src([paths.less + '*.less',`!${paths.less}basic.less`]) //该任务针对的文件
             .pipe(less()) //该任务调用的模块
-            .pipe(gulp.dest('views/css')); //将会在src/css下生成xxx.css
+            .pipe(gulp.dest('src/css')); //将会在src/css下生成xxx.css
     });
 });
 
@@ -66,7 +66,7 @@ gulp.task('minifyimg', function () {
             interlaced: true,       // 类型：Boolean 默认：false 隔行扫描gif进行渲染
             multipass: true         // 类型：Boolean 默认：false 多次优化svg直到完全优化
         }))
-        .pipe(gulp.dest(paths.build + 'img'))
+        .pipe(gulp.dest(outPaths.build + 'img'))
 });
 
 /*压缩css*/
@@ -78,9 +78,9 @@ gulp.task('minifycss', function () {
         //     path.extname = '.css'
         // }))
         .pipe(rev())                     // 添加md5签名   set hash key
-        .pipe(gulp.dest(paths.build + 'css'))       // 输出文件夹    ！！一定要写输出 然后在生成json
+        .pipe(gulp.dest(outPaths.build + 'css'))       // 输出文件夹    ！！一定要写输出 然后在生成json
         .pipe(rev.manifest('css-rev.json'))         // 生成一个rev-manifest.json
-        .pipe(gulp.dest(paths.build + 'rev'))       // 将 rev-manifest.json 保存到 rev 目录内
+        .pipe(gulp.dest(outPaths.build + 'rev'))       // 将 rev-manifest.json 保存到 rev 目录内
 });
 
 // 压缩js
@@ -93,7 +93,7 @@ gulp.task('minifyjs', function () {
         .pipe(rev())            // 添加md5签名  set hash key
         .pipe(gulp.dest(paths.build + 'js')) // 输出
         .pipe(rev.manifest('js-rev.json')) // set hash key json
-        .pipe(gulp.dest(paths.build + 'rev'))   // 将 rev-manifest.json 保存到 rev 目录内
+        .pipe(gulp.dest(outPaths.build + 'rev'))   // 将 rev-manifest.json 保存到 rev 目录内
 });
 
 
@@ -103,7 +103,7 @@ gulp.task('minifyjs', function () {
 // 并没有.min，所以在于json匹配的时候无法匹配到导致无法替换，你需要除了哈希值以外的其他所有文件名都一致才可以匹配替换。
 // 所以可以 在link标签或者script标签添加上 xxx.min.css 或者 xxx.min.js  但是一单这样做 当前的html引入的link和script会失效，但是编译后的文件就是正常的
 
-// 压缩html
+// 压缩html （活动）
 gulp.task('minifyhtml', function () {
     const options = {
         collapseWhitespace:true,                // 从字面意思应该可以看出来，清除空格，压缩html，这一条比较重要，作用比较大，引起的改变压缩量也特别大。
@@ -115,10 +115,27 @@ gulp.task('minifyhtml', function () {
         minifyJS:true,                          // 压缩html中的javascript代码。
         minifyCSS:true                          // 压缩html中的css代码。
     };
-    return gulp.src([paths.build + 'rev/*.json', paths.html])
+    return gulp.src([outPaths.build + 'rev/*.json', paths.activity])
         .pipe(revCollector({replaceReved: true}))  // 一定要加上这一句( { replaceReved:true } )，不然不会替换掉上一次的值
         .pipe(htmlmin(options))                   // 压缩所有的html
-        .pipe(gulp.dest(paths.build))     // 将压缩后的html导出到 dist文件下
+        .pipe(gulp.dest(outPaths.build+'views/Activity'))     // 将压缩后的html导出到 dist文件下
+});
+// 压缩html
+gulp.task('minifyhtmlStation', function () {
+    const options = {
+        collapseWhitespace:true,
+        collapseBooleanAttributes:true,
+        removeComments:true,
+        removeEmptyAttributes:true,
+        removeScriptTypeAttributes:true,
+        removeStyleLinkTypeAttributes:true,
+        minifyJS:true,
+        minifyCSS:true
+    };
+    return gulp.src([outPaths.build + 'rev/*.json', paths.station])
+        .pipe(revCollector({replaceReved: true}))
+        .pipe(htmlmin(options))
+        .pipe(gulp.dest(outPaths.build+'views/Station'))
 });
 
 // 当执行gulp default或gulp将会调用default任务里的所有任务[‘xxx’,’yyy’]。
@@ -130,6 +147,7 @@ gulp.task('default', function (done) {
         'minifyimg',
         'out',
         'minifyhtml',
+        'minifyhtmlStation',
         done
     )
 });
