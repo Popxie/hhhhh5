@@ -8,13 +8,16 @@ a {
   text-decoration: none!important;
 }
 html {
-  min-height: 100%;
   height: 100%;
+  width: 100%;
 }
 body {
   background: #fff;
-  min-height: 100%;
+  height: 100%;
   position: relative;
+}
+[v-cloak] {
+  display: none !important;
 }
 .container {
   height: 100%;
@@ -27,7 +30,7 @@ body {
   font-size: 0.37333333rem;
   height: 1.17333333rem;
   line-height: 1.17333333rem;
-  width: 3.25333333rem;
+  width: 33%;
   color: #343434;
   text-align: center;
   border-bottom: 1px solid #d9d9d9;
@@ -54,40 +57,46 @@ body {
   height: 0.53333333rem;
   border-right: 1px solid #d9d9d9;
 }
-.item-cont {
+.scroll-cont {
+  height: 92%;
+  overflow: auto;
+}
+.scroll-cont .item-cont {
   height: 2.4rem;
   border-bottom: 1px solid #d9d9d9;
 }
-.item-cont .position-cont {
+.scroll-cont .item-cont .position-cont {
   display: flex;
   padding: 0.4rem 0;
 }
-.item-cont .position-cont .img-cont {
+.scroll-cont .item-cont .position-cont .img-cont {
   width: 2.4rem;
   height: 1.6rem;
+  border: 1px solid lightblue;
 }
-.item-cont .position-cont .img-cont img {
+.scroll-cont .item-cont .position-cont .img-cont img {
+  width: 100%;
+  height: 100%;
+}
+.scroll-cont .item-cont .position-cont .detail-cont {
+  padding-left: 0.26666667rem;
   width: 100%;
 }
-.item-cont .position-cont .detail-cont {
-  padding-left: 0.26666667rem;
-}
-.item-cont .position-cont .detail-cont .title {
+.scroll-cont .item-cont .position-cont .detail-cont .title {
   display: block;
   margin-top: 0.13333333rem;
   font-size: 0.37333333rem;
   color: #343434;
 }
-.item-cont .position-cont .detail-cont .sencond-line {
+.scroll-cont .item-cont .position-cont .detail-cont .sencond-line {
   font-size: 0.29333333rem;
   position: relative;
   margin-top: 0.13333333rem;
-  width: 6.8rem;
 }
-.item-cont .position-cont .detail-cont .sencond-line p {
+.scroll-cont .item-cont .position-cont .detail-cont .sencond-line p {
   width: 5.86666667rem;
 }
-.item-cont .position-cont .detail-cont .sencond-line strong {
+.scroll-cont .item-cont .position-cont .detail-cont .sencond-line strong {
   position: absolute;
   right: 0;
   bottom: 0;
@@ -96,8 +105,11 @@ body {
 .mint-toast-text {
   font-size: 0.42666667rem;
 }
+.mint-popup.mint-popup-bottom {
+  width: 100%;
+}
 .picker {
-  width: 10rem;
+  width: 100%;
 }
 .picker-items {
   margin-top: 0.53333333rem;

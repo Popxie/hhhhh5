@@ -5,16 +5,16 @@
     <meta charset="UTF-8">
     <meta region="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>补货地点</title>
-    <link rel="icon" type="image/x-icon" href="img/favicon.ico" />
-    <!-- 这两个js要先引入 否则会引起样式的生效速度,用户体验不好 -->
-    <script src="../../commonJs/lib-flexible.js"></script>
+    <link rel="icon" type="image/x-icon" href="../../img/favicon.ico" />
     <link rel="stylesheet" href="../../css/mint-ui.min.css">
     <link rel="stylesheet" href="../../css/stationsList.css">
     <link rel="stylesheet" href="../../css/font_icon/iconfont.css">
+    <!-- 这两个js要先引入 否则会引起样式的生效速度,用户体验不好 -->
+    <script src="../../commonJs/lib-flexible.js"></script>
 </head>
 
 <body>
-    <div id="app" class="container">
+    <div id="app" v-cloak class="container">
         <div class="flex-cont">
             <div class="select-cont" @click="chooseProvince">
                 <span>{{province.provinceName}}</span>
@@ -52,24 +52,27 @@
             </div>
             <mt-picker :slots="AreaList" @change="onAreaChange"></mt-picker>
         </mt-popup>
-
-        <div class="item-cont" v-for="(item, index) in dataList" @click="itemClick(item, index)">
-            <div class="position-cont">
-                <div class="img-cont">
-                    <img :src='item.imgUrl' alt="">
-                </div>
-                <div class="detail-cont">
-                    <strong class="title">{{item.title}}</strong>
-                    <div class="sencond-line">
-                        <p>{{item.details}}</p>
-                        <strong>{{item.distance}}</strong>
+        <div class="scroll-cont">
+            <div class="item-cont" v-for="(item, index) in dataList" @click="itemClick(item, index)">
+                <div class="position-cont">
+                    <div class="img-cont">
+                        <img :src='item.imgUrl' alt="">
+                    </div>
+                    <div class="detail-cont">
+                        <strong class="title">{{item.name}}</strong>
+                        <div class="sencond-line">
+                            <p>{{item.address}}</p>
+                            <strong>{{item.distance}}<span v-show="isShowM">米</span></strong>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
+
     </div>
     <script src="../../commonJs/lib.min.js"></script>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <script src="../../commonJs/sha1.min.js"></script>
     <script>
         new Vue({
             el: "#app",
@@ -77,37 +80,26 @@
                 visibleProvince: false,
                 visibleCity: false,
                 visibleArea: false,
+                isShowM: false,
                 province: {
-                    provinceName: '浙江',
+                    provinceName: '',
                     provinceId: '',
                 },
                 city: {
-                    cityName: '杭州',
+                    cityName: '',
                     cityId: '',
                 },
                 area: {
-                    areaName: '西湖',
+                    areaName: '',
                     areaId: ''
                 },
                 dataList: [
-                    {
-                        title: '西斗门路1',
-                        details: '西斗门路9号,福地创业园2.0',
-                        distance: '200m',
-                        imgUrl: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3345089115,4288723193&fm=27&gp=0.jpg'
-                    },
-                    {
-                        title: '西斗门路2',
-                        details: '西斗门路9号，福地创业园2.0',
-                        distance: '200m',
-                        imgUrl: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3345089115,4288723193&fm=27&gp=0.jpg'
-                    },
-                    {
-                        title: '西斗门路3',
-                        details: '西斗门路9号，福地创业园2.0',
-                        distance: '200m',
-                        imgUrl: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3345089115,4288723193&fm=27&gp=0.jpg'
-                    },
+                    // {
+                    //     name: '西斗门路1',
+                    //     address: '西斗门路9号,福地创业园2.0',
+                    //     distance: '200m',
+                    //     imgUrl: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3345089115,4288723193&fm=27&gp=0.jpg'
+                    // },
                 ],
                 ProvinceList: [{
                     flex: 1,
@@ -130,11 +122,29 @@
                     className: 'slot',
                 }],
                 areaObj: {},
+                jsApiList: [
+                    'onMenuShareAppMessage',
+                    'getLocation'
+                ],
+                ajaxObj: {
+                    latitude: '',   // 维度
+                    longitude: '',  // 经度
+                },
+                cityId: '',
             },
             created() {
-                this.getProvinceList();
+                // this.getProvinceList();
+                this.getWeixinJsapiTicket();
+                // this.getCityId();
             },
             methods: {
+                alertFn(msg) {
+                    this.$toast({
+                        message: msg,
+                        position: 'middle',
+                        duration: 2000
+                    })
+                },
                 transferFn(data) {
                     // 将参数格式化
                     let result = '';
@@ -143,10 +153,131 @@
                     }
                     return result
                 },
+                // 1.1当用户拒绝获取gps的时候
+                //  通过 ’杭州‘ 获取杭州市的 id
+                getCityId() {
+                    var url = 'http://test-api.xiaojubianli.com:8080/api-driver-web/station/region/杭州市'
+                    this.$http.get(url)
+                        .then((res) => {
+                            if (res.data.error_code === 0) {
+                                this.cityId = res.data.data.id;
+                                this.getDataList();
+                            } else {
+                                this.alertFn(err.data.err_msg)
+                            }
+                        })
+                        .catch((err) => {
+                            this.alertFn('系统异常，请稍后再试!')
+                        })
+                },
+                // 1.2 通过获取到的城市id来获取默认省市的数据
+                getDataList() {
+                    var url = 'http://test-api.xiaojubianli.com:8080/api-driver-web/station/station/' + this.cityId;
+                    this.$http.get(url)
+                        .then((res) => {
+                            if (res.data.error_code === 0) {
+                                this.dataList = res.data.data;
+                            } else {
+                                this.alertFn(err.data.err_msg)
+                            }
+                        })
+                        .catch((err) => {
+                            this.alertFn('系统异常，请稍后再试!')
+                        })
+                },
+                // 获取微信tick，完成验签
+                getWeixinJsapiTicket() {
+                    var self = this;
+                    var url = "https://mgoapi.18jian.cn/api-account-web/wechat/driver/ticket/jsapi";
+                    self.$http.get(url)
+                        .then((res) => {
+                            if (res.data.err_msg === 'success') {
+                                var signArgs = {
+                                    timestamp: (new Date()).getTime(),  // 时间戳
+                                    noncestr: Math.random().toString(36).substr(2), // 随机字符串
+                                    jsApiTicket: res.data.data.ticket,              // jsApiTicket
+                                };
+
+                                let url = location.href;
+                                let preSha = 'jsapi_ticket=' + signArgs.jsApiTicket + '&noncestr=' + signArgs.noncestr + '&timestamp=' + signArgs.timestamp + '&url=' + url;
+                                let signResult = {
+                                    noncestr: signArgs.noncestr,
+                                    timestamp: signArgs.timestamp,
+                                    signature: sha1(preSha)
+                                }
+                                wx.config({
+                                    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                                    appId: "wxd4c744355b802aec",
+                                    timestamp: signResult.timestamp,
+                                    nonceStr: signResult.noncestr,
+                                    signature: signResult.signature,
+                                    jsApiList: self.jsApiList
+                                });
+                                self.wxReady();
+                            }
+                        }).catch((err) => {
+                            self.alertFn('系统异常，请稍后再试!')
+                        });
+                },
+                wxReady() {
+                    let self = this;
+                    wx.ready(() => {
+                        var imgUrl = "https://imgsa.baidu.com/forum/w%3D580/sign=007c931657da81cb4ee683c56267d0a4/26d5543d269759ee907f1b29b4fb43166c22dfd0.jpg";
+                        var link = window.location.href;
+                        var desc = "魔急便站点查询列表";
+                        // 朋友
+                        wx.onMenuShareAppMessage({
+                            title: "测试标题", // 分享标题
+                            desc: desc, // 分享描述
+                            link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                            imgUrl: imgUrl, // 分享图标
+                            success: function () {
+                                // 用户确认分享后执行的回调函数
+                                self.$messagebox({
+                                    title: '提示',
+                                    message: '分享成功',
+                                    showCancelButton: false,
+                                    confirmButtonText: "确认"
+                                });
+                            }
+                        });
+                        // 获取位置
+                        wx.getLocation({
+                            type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                            success: function (res) {
+                                self.ajaxObj.latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                                self.ajaxObj.longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                                var speed = res.speed; // 速度，以米/每秒计
+                                var accuracy = res.accuracy; // 位置精度
+                                self.isShowM = true;
+                                // 获取经纬度成功以后 请求接口获取该地区的数据
+                                var url = 'http://test-api.xiaojubianli.com:8080/api-driver-web/station/station/distance';
+                                // 用户同意获取GPS以后，请求当前gps区域的数据
+                                self.$http.get(url, { params: self.ajaxObj })
+                                    .then((res) => {
+                                        self.dataList = res.data.data;
+                                    })
+                                    .catch((err) => {
+                                        self.alertFn('系统异常，请稍后再试!')
+                                    })
+                            },
+                            // 用户拒绝获取gps
+                            cancel: function (cancel) {
+                                self.isShowM = false;
+                                // 用户拒绝获取地理位置时
+                                self.getCityId();
+                            },
+                            // 获取gps接口失败
+                            fail: function (fail) {
+                                self.isShowM = false;
+                                self.getCityId();
+                            }
+                        });
+                    })
+                },
 
                 onProvinceChange(picker, values) {
                     if (values[0]) {
-                        // this.province.provinceName = values[0];
                         let obj = {
                             id: '',
                             region: '',
@@ -158,7 +289,6 @@
                             }
                         })
                         this.provinceObj = Object.assign({}, this.provinceObj, obj);
-                        console.log('this.provinceObj:', this.provinceObj);
                     }
                 },
                 onCityChange(picker, values) {
@@ -192,45 +322,43 @@
                         this.areaObj = Object.assign({}, this.cityObj, obj);
                     }
                 },
+                // 获取省份列表
                 getProvinceList() {
-                    let url = 'http://192.168.1.23:8080/api-driver-web/station/province';
+                    let url = 'http://test-api.xiaojubianli.com:8080/api-driver-web/station/province';
                     this.$http.get(url)
                         .then(function (res) {
-                            this.ProvinceList[0].data = res.data.data;
-                            res.data.data.forEach((item) => {
-                                this.ProvinceList[0].values.push(item.region);
-                            })
-                            // this.$toast({
-                            //     message: res.data.err_msg,
-                            // });
+                            if (res.data.error_code === 0) {
+                                this.ProvinceList[0].data = res.data.data;
+                                res.data.data.forEach((item) => {
+                                    this.ProvinceList[0].values.push(item.region);
+                                })
+                            } else {
+                                this.alertFn(err.data.err_msg)
+                            }
 
-                        }).catch(function (err) {
-                            console.log('err:', err);
-                            this.$toast({
-                                message: '222'
-                            });
+                        }).catch(() => {
+                            this.alertFn('系统异常，请稍后再试!')
                         });
                 },
+                // 获取 市，区的数据列表
                 getSonList(val, type) {
-                    let url = 'http://192.168.1.23:8080/api-driver-web/station/cityOrRegion/' + val;
+                    let url = 'http://test-api.xiaojubianli.com:8080/api-driver-web/station/lowerLevel/' + val;
                     this.$http.get(url)
                         .then((res) => {
-                            if (type === 'city' && res.data.error_code === 1) {
+                            if (type === 'city' && res.data.error_code === 0) {
                                 this.CityList[0].data = res.data.data;
                                 if (res.data.data) {
                                     res.data.data.forEach((item) => {
                                         this.CityList[0].values.push(item.region);
                                     })
                                 }
-                                console.log('CityList:', this.CityList);
-                            } else if(type === 'area' && res.data.error_code === 1) {
+                            } else if (type === 'area' && res.data.error_code === 0) {
                                 this.AreaList[0].data = res.data.data;
-                                if(res.data.data) {
+                                if (res.data.data) {
                                     res.data.data.forEach((item) => {
                                         this.AreaList[0].values.push(item.region);
                                     })
                                 }
-                                console.log('AreaList:', this.AreaList);
                             } else {
                                 this.$toast({
                                     message: res.data.err_msg,
@@ -251,9 +379,9 @@
                 },
                 itemClick(item, index) {
                     console.log('item', item);
-                    console.log('index', index);
-                    sessionStorage.setItem('id',item.title);
-                    window.location.href = 'http://192.168.1.16:3001/dist/views/Station/stationDetails.html';
+                    sessionStorage.setItem('id', item.id);
+                    // window.location.href = 'http://192.168.1.16:3001/dist/views/Station/stationDetails.html';
+                    window.location.href = 'http://mgo.18jian.cn/dist/views/Station/stationDetails.html';
                 },
                 cancleClick() {
                     this.visibleArea = this.visibleCity = this.visibleProvince = false;

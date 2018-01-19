@@ -30,7 +30,8 @@ const outPaths = {
     css: 'dist/css/',
     js: 'dist/js/',
     common: 'dist/commonJs/',
-    build: 'dist/'
+    build: 'dist/',
+    icon: 'dist/css/font_icon/'
 };
 
 
@@ -46,6 +47,10 @@ gulp.task('del', function () {
 gulp.task('out', function () {
     gulp.src([paths.common+'*.js'])
         .pipe(gulp.dest(outPaths.common))
+});
+gulp.task('outFontIcon', function () {
+    gulp.src([paths.css+'font_icon/'+'*.**'])
+        .pipe(gulp.dest(outPaths.build+'css/font_icon'))
 });
 
 // less编译
@@ -146,6 +151,7 @@ gulp.task('default', function (done) {
         'minifyjs',
         'minifyimg',
         'out',
+        'outFontIcon',
         'minifyhtml',
         'minifyhtmlStation',
         done

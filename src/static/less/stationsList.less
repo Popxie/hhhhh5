@@ -9,16 +9,18 @@ a {
     text-decoration: none!important;
 }
 html {
-    min-height: 100%;
     height: 100%;
+    width:  100%;
 }
 
 body {
     background: #fff;
-    min-height: 100%;
+    height: 100%;
     position: relative;
 }
-
+[v-cloak] {
+    display: none !important;
+}
 .container {
     height: 100%;
     padding: 0 10/@375;
@@ -28,7 +30,7 @@ body {
             font-size: 14/@375;
             height: 44/@375;
             line-height: 44/@375;
-            width: 122/@375;
+            width: 33%;
             color: #343434;
             text-align: center;
             border-bottom: 1px solid #d9d9d9;
@@ -57,51 +59,64 @@ body {
         }
     }
 }
-.item-cont {
-    height: 90/@375;
-    border-bottom: 1px solid #d9d9d9;
-    .position-cont {
-        display: flex;
-        padding: 15/@375 0;
-        .img-cont {
-            width: 90/@375;
-            height: 60/@375;
-            img {
-                width: 100%;
-            }
-        }
-        .detail-cont {
-            padding-left: 10/@375;
-            .title {
-                display: block;
-                margin-top: 5/@375;
-                font-size: 14/@375;
-                color: #343434;
-            }
-            .sencond-line {
-                font-size: 11/@375;
-                position: relative;
-                margin-top: 5/@375;
-                width: 255/@375;
-                p {
-                    width: 220/@375;
+.scroll-cont {
+    // 这里高度只能用百分比 不然会出现滚动问题
+    height: 92%;
+    overflow:auto;
+    .item-cont {
+        height: 90/@375;
+        border-bottom: 1px solid #d9d9d9;
+        .position-cont {
+            display: flex;
+            padding: 15/@375 0;
+            .img-cont {
+                width: 90/@375;
+                height: 60/@375;
+                border: 1px solid lightblue;
+                img {
+                    width: 100%;
+                    height: 100%;
                 }
-                strong {
-                    position: absolute;
-                    right: 0;
-                    bottom: 0;
+            }
+            .detail-cont {
+                padding-left: 10/@375;
+                width: 100%;
+                .title {
+                    display: block;
+                    margin-top: 5/@375;
+                    font-size: 14/@375;
                     color: #343434;
                 }
+                .sencond-line {
+                    font-size: 11/@375;
+                    position: relative;
+                    margin-top: 5/@375;
+                    // width: 255/@375;
+                    p {
+                        width: 220/@375;
+                    }
+                    strong {
+                        position: absolute;
+                        right: 0;
+                        bottom: 0;
+                        color: #343434;
+                    }
+                }
             }
         }
+
     }
 
 }
+
 .mint-toast-text {
     font-size: 16/@375;
 }
+.mint-popup.mint-popup-bottom {
+    width: 100%;
+}
 .picker {
-    width: 375/@375;
+    width: 100%;
 }
 .picker-items {
     margin-top: 20/@375;
