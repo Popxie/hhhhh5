@@ -30,7 +30,7 @@
         <div class="bottom-cont">
             <div class="title">{{stationInfo.name}}</div>
             <div class="img-cont">
-                <img :src="stationInfo.img" alt="">
+                <img :src="stationInfo.imgUrl" alt="">
             </div>
         </div>
     </div>
@@ -49,21 +49,20 @@
                     address: '',
                     latitude: '',   // 纬度
                     longitude: '',  // 经度
-                    img: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3345089115,4288723193&fm=27&gp=0.jpg',
+                    // img: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3345089115,4288723193&fm=27&gp=0.jpg',
+                    imgUrl: '',
                 },
                 jsApiList: [
                     'onMenuShareAppMessage',
-                    'getLocation',
                     'openLocation',
                 ]
             },
             created() {
-                // var url = "http://192.168.1.23:8080/api-driver-web/station/stationInfo/" + this.id;
                 var url = "http://test-api.xiaojubianli.com:8080/api-driver-web/station/stationInfo/" + sessionStorage.getItem("id");
                 this.$http.get(url)
                     .then((res) => {
-                        console.log('res:', res);
                         this.stationInfo = Object.assign({}, this.stationInfo, res.data.data);
+                        console.log(this.stationInfo);
                     })
                 this.getWeixinJsapiTicket();
             },
@@ -131,19 +130,6 @@
                                 });
                             }
                         });
-                        // 获取位置
-                        wx.getLocation({
-                            type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-                            success: function (res) {
-                                var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-                                var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-                                var speed = res.speed; // 速度，以米/每秒计
-                                var accuracy = res.accuracy; // 位置精度
-                                console.log('res:', res);
-                            }
-                        });
-
-
                     })
                 },
 
@@ -152,12 +138,10 @@
                     wx.openLocation({
                         latitude: this.stationInfo.latitude, // 纬度，浮点数，范围为90 ~ -90
                         longitude: this.stationInfo.longitude, // 经度，浮点数，范围为180 ~ -180。
-                        // latitude: 30.27415, // 纬度，浮点数，范围为90 ~ -90
-                        // longitude: 120.15515, // 经度，浮点数，范围为180 ~ -180。
                         name: this.stationInfo.name, // 位置名
                         address: this.stationInfo.address, // 地址详情说明
                         scale: 8, // 地图缩放级别,整形值,范围从1~28。默认为最大
-                        // infoUrl: 'https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115' // 在查看位置界面底部显示的超链接,可点击跳转
+                        // infoUrl: '' // 在查看位置界面底部显示的超链接,可点击跳转
                     });
                 }
             }

@@ -57,6 +57,9 @@ body {
   height: 0.53333333rem;
   border-right: 1px solid #d9d9d9;
 }
+.active {
+  height: 100% !important;
+}
 .scroll-cont {
   height: 92%;
   overflow: auto;
@@ -101,6 +104,19 @@ body {
   right: 0;
   bottom: 0;
   color: #343434;
+}
+.mint-msgbox {
+  font-size: 0.42666667rem;
+}
+.mint-msgbox .mint-msgbox-title {
+  font-size: 0.53333333rem;
+}
+.mint-msgbox .mint-msgbox-btns {
+  height: 1.06666667rem;
+  line-height: 1.06666667rem;
+}
+.mint-msgbox .mint-msgbox-btns .mint-msgbox-confirm {
+  font-size: 0.42666667rem;
 }
 .mint-toast-text {
   font-size: 0.42666667rem;

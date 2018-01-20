@@ -59,6 +59,9 @@ body {
         }
     }
 }
+.active {
+    height: 100% !important;
+}
 .scroll-cont {
     // 这里高度只能用百分比 不然会出现滚动问题
     height: 92%;
@@ -105,6 +108,21 @@ body {
             }
         }
 
+    }
+
+}
+
+.mint-msgbox {
+    font-size: 16/@375;
+    .mint-msgbox-title {
+        font-size: 20/@375;
+    }
+    .mint-msgbox-btns {
+        height: 40/@375;
+        line-height: 40/@375;
+        .mint-msgbox-confirm {
+            font-size: 16/@375;
+        }
     }
 
 }
