@@ -1,0 +1,181 @@
+@import "basic";
+* {
+    margin: 0;
+}
+a {
+    text-decoration: none!important;
+}
+html {
+    width: 100%;
+}
+[v-cloak] {
+    display: none !important;
+}
+body {
+    background: #fff;
+}
+input{
+    outline:none;
+}
+.container {
+    background-image: url(../img/A_background.png);
+    height: 2800/@750;
+    .mask-cont {
+        width: 100%;
+        position: fixed;
+        background: rgba(0, 0, 0, .63);
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 9999;
+        .close {
+            width: 80/@750;
+            height: 80/@750;
+            position: absolute;
+            left: 422/@750;
+            top: -936/@750;
+        }
+        div {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            width: 500/@750;
+            height: 1016/@750;
+            img {
+                width: 100%;
+                height: 1016/@750;
+            }
+        }
+
+    }
+    .top-cont {
+        height: 1130/@750;
+        width: 100%;
+        background-image: url(../img/A_top.png);
+        background-size: 100%, 660/@750;
+        background-repeat: no-repeat;
+    }
+    .middle-right-cont {
+        width: 100%;
+        height: 120/@750;
+        position: relative;
+        .right-cont {
+            width: 112/@750;
+            height: 200/@750;
+            position: absolute;
+            right: 0;
+            background-image: url(../img/A_middleRightLog.png);
+            background-size: 100% 200/@750;
+        }
+    }
+    .login-cont {
+        width: 100%;
+        height: 740/@750;
+        background-image: url(../img/A_login.png);
+        background-size: 100% 740/@750;
+    }
+    .input-block {
+        padding-bottom: 20/@750;
+    }
+    label {
+        height: 36px;
+        line-height: 36px;
+        display: inline-block;
+        color: #fff;
+        font-size: 16px;
+        vertical-align: middle;
+        width: 140/@750;
+    }
+    .input-block input {
+        width: 75%;
+        height: 72/@750;
+        display: inline-block;
+        border-radius: 4px;
+        padding-left: 10px;
+        box-sizing: border-box;
+        border: 1px solid #bfbfbf;
+    }
+    .code-block {
+        display: flex;
+        justify-content:space-between;
+    }
+    .code-block input {
+        width: 42%;
+        height: 72/@750;
+        display: inline-block;
+        border-radius: 4px;
+        padding-left: 10px;
+        box-sizing: border-box;
+        border: 1px solid #bfbfbf;
+        margin-left: -10/@750;
+    }
+
+    .position-cont {
+        padding-top: 260/@750;
+        width: 600/@750;
+        height: 300/@750;
+        margin: 0 auto;
+    }
+    .mint-button{
+        width:30%;
+        margin-left: 1%;
+        height: 72/@750!important;
+        padding: 0 6/@750;
+        background: #9d7a64;
+        label {
+            line-height: 72/@750 !important;
+            height: 72/@750!important;
+            font-size: 28/@750;
+            width: 100%;
+        }
+    }
+    .confirm {
+        margin-top: 30/@750;
+        .mint-button {
+            background: #B04866;
+        }
+        .mint-button label {
+            font-size: 40/@750;
+        }
+    }
+    .confirm-btn {
+        width: 100%;
+        height: 160/@750;
+    }
+    .activity-title-cont {
+        width: 96%;
+        height: 36/@750;
+        margin: 260/@750 auto 0;
+        background-image: url(../img/A_bottomTitle.png);
+        background-size: 100% 36/@750;
+    }
+    ol {
+        margin: 50/@750 auto 0;
+        color: #BE9687;
+        font-size: 28/@750;
+        li {
+            line-height: 50/@750;
+            padding-right: 10/@750;
+        }
+    }
+
+}
+// 弹窗
+.mint-msgbox {
+    font-size: 16/@375;
+    .mint-msgbox-title {
+        font-size: 20/@375;
+    }
+    .mint-msgbox-btns {
+        height: 40/@375;
+        line-height: 40/@375;
+        .mint-msgbox-confirm {
+            font-size: 16/@375;
+        }
+    }
+
+}

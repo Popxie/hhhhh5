@@ -1,0 +1,175 @@
+* {
+  margin: 0;
+}
+a {
+  text-decoration: none!important;
+}
+html {
+  width: 100%;
+}
+[v-cloak] {
+  display: none !important;
+}
+body {
+  background: #fff;
+}
+input {
+  outline: none;
+}
+.container {
+  background-image: url(../img/A_background.png);
+  height: 37.33333333rem;
+}
+.container .mask-cont {
+  width: 100%;
+  position: fixed;
+  background: rgba(0, 0, 0, 0.63);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+}
+.container .mask-cont .close {
+  width: 1.06666667rem;
+  height: 1.06666667rem;
+  position: absolute;
+  left: 5.62666667rem;
+  top: -12.48rem;
+}
+.container .mask-cont div {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 6.66666667rem;
+  height: 13.54666667rem;
+}
+.container .mask-cont div img {
+  width: 100%;
+  height: 13.54666667rem;
+}
+.container .top-cont {
+  height: 15.06666667rem;
+  width: 100%;
+  background-image: url(../img/A_top.png);
+  background-size: 100%, 8.8rem;
+  background-repeat: no-repeat;
+}
+.container .middle-right-cont {
+  width: 100%;
+  height: 1.6rem;
+  position: relative;
+}
+.container .middle-right-cont .right-cont {
+  width: 1.49333333rem;
+  height: 2.66666667rem;
+  position: absolute;
+  right: 0;
+  background-image: url(../img/A_middleRightLog.png);
+  background-size: 100% 2.66666667rem;
+}
+.container .login-cont {
+  width: 100%;
+  height: 9.86666667rem;
+  background-image: url(../img/A_login.png);
+  background-size: 100% 9.86666667rem;
+}
+.container .input-block {
+  padding-bottom: 0.26666667rem;
+}
+.container label {
+  height: 36px;
+  line-height: 36px;
+  display: inline-block;
+  color: #fff;
+  font-size: 16px;
+  vertical-align: middle;
+  width: 1.86666667rem;
+}
+.container .input-block input {
+  width: 75%;
+  height: 0.96rem;
+  display: inline-block;
+  border-radius: 4px;
+  padding-left: 10px;
+  box-sizing: border-box;
+  border: 1px solid #bfbfbf;
+}
+.container .code-block {
+  display: flex;
+  justify-content: space-between;
+}
+.container .code-block input {
+  width: 42%;
+  height: 0.96rem;
+  display: inline-block;
+  border-radius: 4px;
+  padding-left: 10px;
+  box-sizing: border-box;
+  border: 1px solid #bfbfbf;
+  margin-left: -0.13333333rem;
+}
+.container .position-cont {
+  padding-top: 3.46666667rem;
+  width: 8rem;
+  height: 4rem;
+  margin: 0 auto;
+}
+.container .mint-button {
+  width: 30%;
+  margin-left: 1%;
+  height: 0.96rem !important;
+  padding: 0 0.08rem;
+  background: #9d7a64;
+}
+.container .mint-button label {
+  line-height: 0.96rem !important;
+  height: 0.96rem !important;
+  font-size: 0.37333333rem;
+  width: 100%;
+}
+.container .confirm {
+  margin-top: 0.4rem;
+}
+.container .confirm .mint-button {
+  background: #B04866;
+}
+.container .confirm .mint-button label {
+  font-size: 0.53333333rem;
+}
+.container .confirm-btn {
+  width: 100%;
+  height: 2.13333333rem;
+}
+.container .activity-title-cont {
+  width: 96%;
+  height: 0.48rem;
+  margin: 3.46666667rem auto 0;
+  background-image: url(../img/A_bottomTitle.png);
+  background-size: 100% 0.48rem;
+}
+.container ol {
+  margin: 0.66666667rem auto 0;
+  color: #BE9687;
+  font-size: 0.37333333rem;
+}
+.container ol li {
+  line-height: 0.66666667rem;
+  padding-right: 0.13333333rem;
+}
+.mint-msgbox {
+  font-size: 0.42666667rem;
+}
+.mint-msgbox .mint-msgbox-title {
+  font-size: 0.53333333rem;
+}
+.mint-msgbox .mint-msgbox-btns {
+  height: 1.06666667rem;
+  line-height: 1.06666667rem;
+}
+.mint-msgbox .mint-msgbox-btns .mint-msgbox-confirm {
+  font-size: 0.42666667rem;
+}

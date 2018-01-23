@@ -66,7 +66,7 @@ gulp.task('less', function () {
 gulp.task('minifyimg', function () {
     return gulp.src([paths.images + '*'])
         .pipe(imagemin({
-            optimizationLevel: 7,   // 类型：Number  默认：3  取值范围：0-7（优化等级）
+            optimizationLevel: 7,   // 类型：Number  默认：0  取值范围：0-7（优化等级）
             progressive: true,      // 类型：Boolean 默认：false 无损压缩jpg图片
             interlaced: true,       // 类型：Boolean 默认：false 隔行扫描gif进行渲染
             multipass: true         // 类型：Boolean 默认：false 多次优化svg直到完全优化
@@ -149,7 +149,7 @@ gulp.task('default', function (done) {
         'del',
         'minifycss',
         'minifyjs',
-        'minifyimg',
+        'minifyimg', // 图片占时就不用gulp压缩了，在其他地方压缩就好了
         'out',
         'outFontIcon',
         'minifyhtml',
