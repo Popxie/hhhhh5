@@ -18,7 +18,7 @@ input {
 }
 .container {
   background-image: url(../img/A_background.png);
-  height: 37.33333333rem;
+  height: 37.86666667rem;
 }
 .container .mask-cont {
   width: 100%;
@@ -34,8 +34,8 @@ input {
   width: 1.06666667rem;
   height: 1.06666667rem;
   position: absolute;
-  left: 5.62666667rem;
-  top: -12.48rem;
+  left: 5.6rem;
+  top: -9.6rem;
 }
 .container .mask-cont div {
   position: absolute;
@@ -45,11 +45,11 @@ input {
   right: 0;
   margin: auto;
   width: 6.66666667rem;
-  height: 13.54666667rem;
+  height: 10.66666667rem;
 }
 .container .mask-cont div img {
   width: 100%;
-  height: 13.54666667rem;
+  height: 10.66666667rem;
 }
 .container .top-cont {
   height: 15.06666667rem;

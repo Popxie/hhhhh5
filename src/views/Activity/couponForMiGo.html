@@ -43,11 +43,12 @@
             <div class="activity-title-cont"></div>
             <div class="details-cont">
                 <ol>
+                    <li>每个手机号限领一次</li>
+                    <li>本活动不支持魔急便司机用户领取</li>
+                    <li>本活动券限杭州地区使用，自领取日起30天内有效</li>
+                    <li>本活动券购买时会自动扣除，不与其他优惠券累计，不设找零</li>
                     <li>领取本活动车载零食券礼包后，券将直接充入您的魔急便账户，可立即使用</li>
                     <li> 打到安装魔急便零食盒的网约车/出租车后，您可直接扫描车内魔急便货架二维码购买商品，券可直接按条件抵扣支付金额</li>
-                    <li>本活动券购买时会自动扣除，不与其他优惠券累计，不设找零</li>
-                    <li>每个手机号限领一次</li>
-                    <li>本活动券限杭州地区使用，自领取日起30天内有效</li>
                     <li>凡利用活动开展恶意刷单，套现等违法违规行为者，领取优惠券即时作废</li>
                     <li>本次活动最终解释权归Mobile Go魔急便所有</li>
                 </ol>
@@ -172,7 +173,8 @@
                 },
                 getMsgCode() {
                     let self = this;
-                    let url = 'http://test-api.xiaojubianli.com:8080/api-account-web/mobile/' + self.dataObj.mobile + '?type=' + self.type;
+                    let url = 'https://mgoapi.18jian.cn/api-account-web/mobile/' + self.dataObj.mobile + '?type=' + self.type;
+                    // let url = 'http://test-api.xiaojubianli.com:8080/api-account-web/mobile/' + self.dataObj.mobile + '?type=' + self.type;
                     self.$http.get(url)
                         .then((res) => {
                             if (res.data.error_code === 0) {
@@ -187,7 +189,8 @@
 
                 getCoupon(val) {
                     let self = this;
-                    let url = 'http://test-api.xiaojubianli.com:8080/api-marketing-web/coupon/draw_coupon'
+                    let url = 'https://mgoapi.18jian.cn/api-marketing-web/coupon/draw_coupon';
+                    // let url = 'http://test-api.xiaojubianli.com:8080/api-marketing-web/coupon/draw_coupon';
 
                     self.$http.post(url, self.transferFn(val), {
                         headers: {

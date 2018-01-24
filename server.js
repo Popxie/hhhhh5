@@ -7,8 +7,9 @@ app.use("/dist", express.static(__dirname + "/src"));
 let port = 3001;
 app.listen(port);
 console.log('port = ' + port);
-console.log('http://192.168.1.16:3001/dist/views/Station/stationsList.html');
-console.log('http://localhost:3001/dist/views/Station/stationsList.html');
+console.log('http://192.168.1.16:3001/dist/views/Station/xxx.html');
+console.log('http://192.168.1.16:3001/dist/views/Activity/xxx.html');
+console.log('http://localhost:3001/dist/views/Station/xxx.html');
 
 
 

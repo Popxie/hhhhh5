@@ -52,6 +52,10 @@ gulp.task('outFontIcon', function () {
     gulp.src([paths.css+'font_icon/'+'*.**'])
         .pipe(gulp.dest(outPaths.build+'css/font_icon'))
 });
+gulp.task('outImg', function () {
+    gulp.src([paths.images+'*.**'])
+        .pipe(gulp.dest(outPaths.build+'img'))
+});
 
 // less编译
 gulp.task('less', function () {
@@ -62,17 +66,17 @@ gulp.task('less', function () {
     });
 });
 
-// 压缩图片
-gulp.task('minifyimg', function () {
-    return gulp.src([paths.images + '*'])
-        .pipe(imagemin({
-            optimizationLevel: 7,   // 类型：Number  默认：0  取值范围：0-7（优化等级）
-            progressive: true,      // 类型：Boolean 默认：false 无损压缩jpg图片
-            interlaced: true,       // 类型：Boolean 默认：false 隔行扫描gif进行渲染
-            multipass: true         // 类型：Boolean 默认：false 多次优化svg直到完全优化
-        }))
-        .pipe(gulp.dest(outPaths.build + 'img'))
-});
+// 压缩图片   直接用 https://tinypng.com/ 这个来压缩 不在用gulp压缩了
+// gulp.task('minifyimg', function () {
+//     return gulp.src([paths.images + '*'])
+//         .pipe(imagemin({
+//             optimizationLevel: 7,   // 类型：Number  默认：0  取值范围：0-7（优化等级）
+//             progressive: true,      // 类型：Boolean 默认：false 无损压缩jpg图片
+//             interlaced: true,       // 类型：Boolean 默认：false 隔行扫描gif进行渲染
+//             multipass: true         // 类型：Boolean 默认：false 多次优化svg直到完全优化
+//         }))
+//         .pipe(gulp.dest(outPaths.build + 'img'))
+// });
 
 /*压缩css*/
 gulp.task('minifycss', function () {
@@ -149,11 +153,12 @@ gulp.task('default', function (done) {
         'del',
         'minifycss',
         'minifyjs',
-        'minifyimg', // 图片占时就不用gulp压缩了，在其他地方压缩就好了
         'out',
         'outFontIcon',
+        'outImg',
         'minifyhtml',
         'minifyhtmlStation',
+        // 'minifyimg', // 图片占时就不用gulp压缩了，在其他地方压缩就好了
         done
     )
 });
