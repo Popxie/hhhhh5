@@ -44,6 +44,7 @@ body {
 .container .bottom-cont .details-cont .qr-cont {
   width: 2.93333333rem;
   margin: 0 auto;
+  color: #1b2b5a;
 }
 .container .bottom-cont .details-cont .title-cont {
   margin-top: 0.26666667rem;
@@ -55,6 +56,7 @@ body {
   width: 42%;
   margin: 0 auto;
   text-align: center;
+  color: #1b2b5a;
 }
 .container .bottom-cont .details-cont span {
   color: #c10505;
@@ -66,4 +68,5 @@ body {
 .container .bottom-cont .details-cont p {
   margin-bottom: 0.08rem;
   line-height: 0.53333333rem;
+  color: #1b2b5a;
 }
