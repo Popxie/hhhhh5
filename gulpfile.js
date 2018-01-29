@@ -16,13 +16,17 @@ const gulp = require('gulp'), //本地安装gulp所用到的地方
 
 /*静态文件地址*/
 const paths = {
+    views: 'src/views/',
     css: 'src/css/',
     less: 'src/static/less/',
     scripts: 'src/js/',
     common: 'src/commonJs/',
     images: 'src/img/',
-    activity: 'src/views/Activity/*.html',
-    station: 'src/views/Station/*.html',
+    avtivityLess:'src/views/Activity/less/',
+    stationLess:'src/views/Station/less/',
+    activityHtml: 'src/views/Activity/*.html',
+    stationHtml: 'src/views/Station/*.html',
+    protalHtml: 'src/views/Protal/*.html',
     build: 'dist/'
 };
 
@@ -36,84 +40,59 @@ const outPaths = {
 
 
 // 删除dist文件夹
-gulp.task('del', function () {
+gulp.task('delDist', function () {
     return del ([
-        outPaths.css+'*.css',
-        outPaths.js+'*.js',
+        outPaths.build
     ])
 });
 
+// ------------------------------------ js ----------------------------------------------------
+
 // 输出不编译的 commonJs文件下的所有js  因为 vue  axios 经过编译以后无法使用会报错
-gulp.task('out', function () {
-    gulp.src([paths.common+'*.js'])
-        .pipe(gulp.dest(outPaths.common))
-});
-gulp.task('outFontIcon', function () {
-    gulp.src([paths.css+'font_icon/'+'*.**'])
-        .pipe(gulp.dest(outPaths.build+'css/font_icon'))
-});
-gulp.task('outImg', function () {
-    gulp.src([paths.images+'*.**'])
-        .pipe(gulp.dest(outPaths.build+'img'))
+
+
+
+
+
+// ------------------------------------ Activity --------------------------------------------------
+gulp.task('outFontIconForActivity', function () {
+    gulp.src([paths.views+'Activity/css/font_icon/'+'*.**'])
+        .pipe(gulp.dest(outPaths.build+'views/Activity/css/font_icon'))
 });
 
-// less编译
-gulp.task('less', function () {
-    return watch(paths.less + '*.less', function() { // 时刻监控less文件的变化
-        gulp.src([paths.less + '*.less',`!${paths.less}basic.less`]) //该任务针对的文件
-            .pipe(less()) //该任务调用的模块
-            .pipe(gulp.dest('src/css')); //将会在src/css下生成xxx.css
-    });
+gulp.task('outImgForActivity', function () {
+    gulp.src([paths.views+'Activity/img/'+'*.**'])
+        .pipe(gulp.dest(outPaths.build+'views/Activity/img'))
 });
 
-// 压缩图片   直接用 https://tinypng.com/ 这个来压缩 不在用gulp压缩了
-// gulp.task('minifyimg', function () {
-//     return gulp.src([paths.images + '*'])
-//         .pipe(imagemin({
-//             optimizationLevel: 7,   // 类型：Number  默认：0  取值范围：0-7（优化等级）
-//             progressive: true,      // 类型：Boolean 默认：false 无损压缩jpg图片
-//             interlaced: true,       // 类型：Boolean 默认：false 隔行扫描gif进行渲染
-//             multipass: true         // 类型：Boolean 默认：false 多次优化svg直到完全优化
-//         }))
-//         .pipe(gulp.dest(outPaths.build + 'img'))
-// });
+// 输出Activity模块 不需要编译的js
+gulp.task('outJsForActivity', function () {
+    gulp.src([paths.views+'Activity/commonJs/'+'*.js'])
+        .pipe(gulp.dest(outPaths.build+'views/Activity/commonJs'))
+});
 
-/*压缩css*/
-gulp.task('minifycss', function () {
-    return gulp.src(paths.css + '*.css')        // 压缩的文件
+gulp.task('minifycssForActivity', function () {
+    return gulp.src(paths.views+'Activity/css/*.css')        // 压缩的文件
         .pipe(minifycss())               // 压缩css
-        // .pipe(rename(function (path) {
-        //     path.basename += '.min';
-        //     path.extname = '.css'
-        // }))
         .pipe(rev())                     // 添加md5签名   set hash key
-        .pipe(gulp.dest(outPaths.build + 'css'))       // 输出文件夹    ！！一定要写输出 然后在生成json
+        .pipe(gulp.dest(outPaths.build + 'views/Activity/css'))       // 输出文件夹    ！！一定要写输出 然后在生成json
         .pipe(rev.manifest('css-rev.json'))         // 生成一个rev-manifest.json
         .pipe(gulp.dest(outPaths.build + 'rev'))       // 将 rev-manifest.json 保存到 rev 目录内
 });
 
-// 压缩js
-gulp.task('minifyjs', function () {
-    return gulp.src([paths.scripts + '**/*.js'])
+gulp.task('minifyjsForActivity', function () {
+    return gulp.src([paths.views + 'Activity/js/*.js'])
         .pipe(babel({
             presets: ['es2015']
         }))                     // 编译es6 => es5   需要（npm install --save-dev gulp-babel babel-preset-es2015）
         .pipe(uglify())         // 压缩js
         .pipe(rev())            // 添加md5签名  set hash key
-        .pipe(gulp.dest(paths.build + 'js')) // 输出
+        .pipe(gulp.dest(outPaths.build + 'views/Activity/js')) // 输出
         .pipe(rev.manifest('js-rev.json')) // set hash key json
         .pipe(gulp.dest(outPaths.build + 'rev'))   // 将 rev-manifest.json 保存到 rev 目录内
 });
 
-
-// !!!!  由于使用了gulp-rename导致无法完成静态资源路径替换  ！！！！！
-// 1、你看一下你在用gulp-rev的时候生成的rev-manifest.json文件中的文件名是否和你在html中要替换的那个文件名一致，
-// 我在替换过程中，由于使用了gulp-rename，所以生成的文件名为index-XXX.min.css,而在html中我自己写的引用文件名为index.css，
-// 并没有.min，所以在于json匹配的时候无法匹配到导致无法替换，你需要除了哈希值以外的其他所有文件名都一致才可以匹配替换。
-// 所以可以 在link标签或者script标签添加上 xxx.min.css 或者 xxx.min.js  但是一单这样做 当前的html引入的link和script会失效，但是编译后的文件就是正常的
-
-// 压缩html （活动）
-gulp.task('minifyhtml', function () {
+gulp.task('minifyhtmlActivity', function () {
     const options = {
         collapseWhitespace:true,                // 从字面意思应该可以看出来，清除空格，压缩html，这一条比较重要，作用比较大，引起的改变压缩量也特别大。
         collapseBooleanAttributes:true,         // 省略布尔属性的值，比如：<input checked="checked"/>,那么设置这个属性后，就会变成 <input checked/>。
@@ -124,11 +103,61 @@ gulp.task('minifyhtml', function () {
         minifyJS:true,                          // 压缩html中的javascript代码。
         minifyCSS:true                          // 压缩html中的css代码。
     };
-    return gulp.src([outPaths.build + 'rev/*.json', paths.activity])
+    return gulp.src([outPaths.build + 'rev/*.json', paths.activityHtml])
         .pipe(revCollector({replaceReved: true}))  // 一定要加上这一句( { replaceReved:true } )，不然不会替换掉上一次的值
         .pipe(htmlmin(options))                   // 压缩所有的html
         .pipe(gulp.dest(outPaths.build+'views/Activity'))     // 将压缩后的html导出到 dist文件下
 });
+
+
+// ------------------------------------ Station ----------------------------------------------------
+
+// less编译
+gulp.task('less', function () {
+    return watch(paths.stationLess + '*.less', function() { // 时刻监控less文件的变化
+        gulp.src([paths.stationLess + '*.less',`!${paths.stationLess}basic.less`]) //该任务针对的文件
+            .pipe(less()) //该任务调用的模块
+            .pipe(gulp.dest(paths.views+'Station/css')); //将会在下生成xxx.css
+    });
+});
+
+gulp.task('outFontIconForStation', function () {
+    gulp.src([paths.views+'Station/css/font_icon/'+'*.**'])
+        .pipe(gulp.dest(outPaths.build+'views/Station/css/font_icon'))
+});
+
+gulp.task('outImgForStation', function () {
+    gulp.src([paths.views+'Station/img/'+'*.**'])
+        .pipe(gulp.dest(outPaths.build+'views/Station/img'))
+});
+
+// 输出Station模块不需要编译的js
+gulp.task('outJsForStation', function () {
+    gulp.src([paths.views+'Station/commonJs/'+'*.js'])
+        .pipe(gulp.dest(outPaths.build+'views/Station/commonJs'))
+});
+// 压缩css
+gulp.task('minifycssForStation', function () {
+    return gulp.src(paths.views+'Station/css/*.css')
+        .pipe(minifycss())
+        .pipe(rev())
+        .pipe(gulp.dest(outPaths.build + 'views/Station/css'))
+        .pipe(rev.manifest('css-rev.json'))
+        .pipe(gulp.dest(outPaths.build + 'rev'))
+});
+// 压缩js
+gulp.task('minifyjsForStation', function () {
+    return gulp.src([paths.views + 'Station/js/*.js'])
+        .pipe(babel({
+            presets: ['es2015']
+        }))
+        .pipe(uglify())
+        .pipe(rev())
+        .pipe(gulp.dest(outPaths.build + 'views/Station/js'))
+        .pipe(rev.manifest('js-rev.json'))
+        .pipe(gulp.dest(outPaths.build + 'rev'))
+});
+
 // 压缩html
 gulp.task('minifyhtmlStation', function () {
     const options = {
@@ -141,24 +170,105 @@ gulp.task('minifyhtmlStation', function () {
         minifyJS:true,
         minifyCSS:true
     };
-    return gulp.src([outPaths.build + 'rev/*.json', paths.station])
+    return gulp.src([outPaths.build + 'rev/*.json', paths.stationHtml])
         .pipe(revCollector({replaceReved: true}))
         .pipe(htmlmin(options))
         .pipe(gulp.dest(outPaths.build+'views/Station'))
 });
+// ------------------------------------ Protal --------------------------------------------------
+// 输出Protal模块 不需要编译的js
+gulp.task('outJsForProtal', function () {
+    gulp.src([paths.views+'Protal/commonJs/'+'*.js'])
+        .pipe(gulp.dest(outPaths.build+'views/Protal/commonJs'))
+});
+
+gulp.task('outImgForProtal', function () {
+    gulp.src([paths.views+'Protal/img/'+'*.**'])
+        .pipe(gulp.dest(outPaths.build+'views/Protal/img'))
+});
+
+gulp.task('outFontIconForProtal', function () {
+    gulp.src([paths.views+'Protal/css/font_icon/'+'*.**'])
+        .pipe(gulp.dest(outPaths.build+'views/Protal/css/font_icon'))
+});
+gulp.task('minifycssForProtal', function () {
+    return gulp.src(paths.views+'Protal/css/*.css')
+        .pipe(minifycss())
+        .pipe(rev())
+        .pipe(gulp.dest(outPaths.build + 'views/Protal/css'))
+        .pipe(rev.manifest('css-rev.json'))
+        .pipe(gulp.dest(outPaths.build + 'rev'))
+});
+
+gulp.task('minifyjsForProtal', function () {
+    return gulp.src([paths.views + 'Protal/js/*.js'])
+        .pipe(babel({
+            presets: ['es2015']
+        }))
+        .pipe(uglify())
+        .pipe(rev())
+        .pipe(gulp.dest(outPaths.build + 'views/Protal/js'))
+        .pipe(rev.manifest('js-rev.json'))
+        .pipe(gulp.dest(outPaths.build + 'rev'))
+});
+
+gulp.task('minifyhtmlProtal', function () {
+    const options = {
+        collapseWhitespace:true,
+        collapseBooleanAttributes:true,
+        removeComments:true,
+        removeEmptyAttributes:true,
+        removeScriptTypeAttributes:true,
+        removeStyleLinkTypeAttributes:true,
+        minifyJS:true,
+        minifyCSS:true
+    };
+    return gulp.src([outPaths.build + 'rev/*.json', paths.protalHtml])
+        .pipe(revCollector({replaceReved: true}))
+        .pipe(htmlmin(options))
+        .pipe(gulp.dest(outPaths.build+'views/Protal'))
+});
+
+
+
+
 
 // 当执行gulp default或gulp将会调用default任务里的所有任务[‘xxx’,’yyy’]。
+
+// gulp.task('default', function (done) {
+//     runSequence(            // 这里默认的不需要执行 less编译  因为需要的是less编译后的css  所以如果把less写进来的话就会一个 处于 starting less……
+
+//         'delDist',          // 删除整个dist
+//         'outImgForActivity',
+//         'outFontIconForActivity',  // 字体图标 (输出&不压缩)
+//         'outJsForActivity',     // js (输出&不压缩)
+//         'minifycssForActivity',     // 压缩 css
+//         'minifyjsForActivity',   // 压缩js
+//         'minifyhtmlActivity',       // html (输出&压缩)
+//         done
+//     )
+// });
 gulp.task('default', function (done) {
-    runSequence(            // 这里默认的不需要执行 less编译  因为需要的是less编译后的css  所以如果把less写进来的话就会一个 处于 starting less……
-        'del',
-        'minifycss',
-        'minifyjs',
-        'out',
-        'outFontIcon',
-        'outImg',
-        'minifyhtml',
+    runSequence(
+        'delDist',
+        'outImgForStation',
+        'outFontIconForStation',
+        'outJsForStation',
+        'minifycssForStation',
+        'minifyjsForStation',
         'minifyhtmlStation',
-        // 'minifyimg', // 图片占时就不用gulp压缩了，在其他地方压缩就好了
         done
     )
 });
+// gulp.task('default', function (done) {
+//     runSequence(
+//         'delDist',
+//         'outImgForProtal',
+//         'outFontIconForProtal',
+//         'outJsForProtal',
+//         'minifycssForProtal',
+//         'minifyjsForProtal',
+//         'minifyhtmlProtal',
+//         done
+//     )
+// });
