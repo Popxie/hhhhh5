@@ -278,7 +278,7 @@ new Vue({
                         this.getCityList(13780, 'city');
                         this.city.cityName = '杭州市';
                         // 通过cityId  获取区域列表 （默认杭州市全区）
-                        this.getAreaList(13782, 'area');
+                        this.getAreaList(13781, 'area');
                         this.area.areaName = '全区';
                     } else {
                         this.alertFn(err.data.err_msg)

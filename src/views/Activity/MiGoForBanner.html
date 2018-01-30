@@ -5,107 +5,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>MGO&咪咕福利</title>
-    <link rel="icon" type="image/x-icon" href="../../img/favicon.ico" />
-    <link rel="stylesheet" href="../../css/MiGoForBanner.css">
-    <script src="../../commonJs/lib-flexible.js"></script>
-    <script src="../../commonJs/lib.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="./img/favicon.ico"/>
+    <link rel="stylesheet" href="./css/MiGoForBanner.css">
+    <script src="./commonJs/lib-flexible.js"></script>
+    <script src="./commonJs/lib.min.js"></script>
 </head>
 
 <body>
     <div id="app" v-cloak class="container">
         <div class="top-cont">
-            <img src="../../img/B_MiGoForBannerTop.png" alt="">
+            <img src="./img/B_MiGoForBannerTop.png" alt="">
         </div>
         <div class="bottom-cont">
-            <img src="../../img/B_MiGoForBannerBot.png" alt="">
+            <img src="./img/B_MiGoForBannerBot.png" alt="">
             <div class="details-cont">
                 <div class="title-cont"><span>-</span><strong>活动规则</strong><span>-</span></div>
                 <p>1.扫码进入Mobile Go魔急便官方微信</p>
                 <p>2.首次关注Mobile Go魔急便的用户点击后台发送的链接即可立即领券</p>
                 <p>3.已经关注Mobile Go魔急便的用户请在微信后台回复“福利”点击链接，即可领取咪咕阅读10元券</p>
                 <div class="qr-cont">
-                    <img src="../../img/B_QR.png" alt="">
+                    <img src="./img/B_QR.png" alt="">
                 </div>
                 <div class="scan-me">扫我进入Mobile Go</div>
             </div>
         </div>
     </div>
     <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
-    <script src="../../commonJs/sha1.min.js"></script>
-    <script>
-        new Vue({
-            el: '#app',
-            data: {
-                jsApiList: [
-                    'onMenuShareAppMessage',
-                ],
-            },
-            created() {
-                this.getWeixinJsapiTicket();
-            },
-            methods: {
-                // 获取微信tick，完成验签
-                getWeixinJsapiTicket() {
-                    var self = this;
-                    var url = "https://mgoapi.18jian.cn/api-account-web/wechat/driver/ticket/jsapi";
-                    self.$http.get(url)
-                        .then((res) => {
-                            if (res.data.err_msg === 'success') {
-                                var signArgs = {
-                                    timestamp: (new Date()).getTime(),  // 时间戳
-                                    noncestr: Math.random().toString(36).substr(2), // 随机字符串
-                                    jsApiTicket: res.data.data.ticket,              // jsApiTicket
-                                };
-
-                                let url = location.href;
-                                let preSha = 'jsapi_ticket=' + signArgs.jsApiTicket + '&noncestr=' + signArgs.noncestr + '&timestamp=' + signArgs.timestamp + '&url=' + url;
-                                let signResult = {
-                                    noncestr: signArgs.noncestr,
-                                    timestamp: signArgs.timestamp,
-                                    signature: sha1(preSha)
-                                }
-                                wx.config({
-                                    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-                                    appId: "wxd4c744355b802aec",
-                                    timestamp: signResult.timestamp,
-                                    nonceStr: signResult.noncestr,
-                                    signature: signResult.signature,
-                                    jsApiList: self.jsApiList
-                                });
-                                self.wxReady();
-                            }
-                        }).catch((err) => {
-                            self.alertFn('系统异常，请稍后再试!')
-                        });
-                },
-                wxReady() {
-                    let self = this;
-                    wx.ready(() => {
-                        var imgUrl = "http://p1lw91kqi.bkt.clouddn.com/share_logo.png";
-                        var link = window.location.href;
-                        var desc = "Mobile Go魔急便联手咪咕阅读，10礼包等你拿，做个有“味”的人";
-                        // 朋友
-                        wx.onMenuShareAppMessage({
-                            title: "Mobile Go魔急便用户专属福利", // 分享标题
-                            desc: desc, // 分享描述
-                            link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-                            imgUrl: imgUrl, // 分享图标
-                            success: function () {
-                                // 用户确认分享后执行的回调函数
-                                self.$messagebox({
-                                    title: '提示',
-                                    message: '分享成功',
-                                    showCancelButton: false,
-                                    confirmButtonText: "确认"
-                                });
-                            }
-                        });
-
-                    })
-                },
-            }
-        })
-    </script>
+    <script src="./commonJs/sha1.min.js"></script>
+    <script src="./js/MiGoForBanner.js"></script>
 </body>
 
 </html>
