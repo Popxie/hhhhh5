@@ -1,0 +1,56 @@
+@import "basic";
+
+* {
+    margin: 0;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+html {
+    min-height: 100%;
+}
+
+body {
+    background: #e6e6e6;
+    position: relative;
+}
+input { // 去除 谷歌默认的 橙色边框
+    outline:none
+}
+[v-cloak] {
+    display: none !important;  // 解决刷新或者加载出现闪烁（显示变量）
+}
+.order-cont {
+    padding: 0 13/@375;
+    margin-bottom: 1/@375;
+    // border-bottom: 1px solid #cccccc;
+    background: #ffffff;
+    .flex-cont-one {
+        padding-top: 8/@375;
+        color: #666666;
+        font-size: 15/@375;
+    }
+    .flex-cont-one,
+    .flex-cont-two {
+        display: flex;
+        justify-content: space-between;
+        color: #666666;
+    }
+    .cont {
+        padding-bottom: 5/@375;
+        font-size: 13/@375;
+
+    }
+}
+.no-order-cont {
+    text-align: center;
+    font-size: 17/@375;
+    margin-top: 30/@375;
+}
+.loading-cont {
+    text-align: center;
+    font-size: 17/@375;
+    margin-top: 30/@375;
+}

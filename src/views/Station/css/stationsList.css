@@ -75,7 +75,6 @@ body {
 .scroll-cont .item-cont .position-cont .img-cont {
   width: 2.4rem;
   height: 1.6rem;
-  border: 1px solid lightblue;
 }
 .scroll-cont .item-cont .position-cont .img-cont img {
   width: 100%;

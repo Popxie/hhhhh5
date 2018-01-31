@@ -49,9 +49,6 @@ body {
   line-height: 1.17333333rem;
   font-size: 0.32rem;
 }
-.container .bottom-cont .img-cont {
-  border: 1px solid lightblue;
-}
 .container .bottom-cont .img-cont img {
   width: 100%;
 }

@@ -9,7 +9,6 @@ new Vue({
             address: '',
             latitude: '',   // 纬度
             longitude: '',  // 经度
-            // img: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3345089115,4288723193&fm=27&gp=0.jpg',
             imgUrl: '',
         },
         jsApiList: [
@@ -18,10 +17,12 @@ new Vue({
         ]
     },
     created() {
-        var url = "http://test-api.xiaojubianli.com:8080/api-driver-web/station/stationInfo/" + sessionStorage.getItem("id");
+        // var url = "http://test-api.xiaojubianli.com:8080/api-driver-web/station/stationInfo/" + sessionStorage.getItem("id");
+        var url = "https://mgoapi.18jian.cn/api-driver-web/station/stationInfo/" + sessionStorage.getItem("id");
         this.$http.get(url)
             .then((res) => {
                 this.stationInfo = Object.assign({}, this.stationInfo, res.data.data);
+                res.data.data.type === 2 ? this.stationInfo.imgUrl = 'http://p1lw91kqi.bkt.clouddn.com/share_logo.png' : '';
                 console.log(this.stationInfo);
             })
         this.getWeixinJsapiTicket();
@@ -71,7 +72,7 @@ new Vue({
         wxReady() {
             let self = this;
             wx.ready(() => {
-                var imgUrl = "https://activity.mingbikes.com/public/static/images/send_free_card/logo_xm.png";
+                var imgUrl = "http://p1lw91kqi.bkt.clouddn.com/share_logo.png";
                 var link = window.location.href;
                 var desc = "测试";
                 // 朋友

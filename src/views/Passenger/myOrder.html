@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="icon" type="image/x-icon" href="./img/favicon.ico" />
+    <script src="./commonJs/lib-flexible.js"></script>
+    <link rel="stylesheet" href="./css/mint-ui.css">
+    <link rel="stylesheet" href="./css/myOrder.css">
+    <title>我的订单</title>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <div v-if="!showLoading">
+            <div class="order-cont" v-for="item in dataList">
+                <div class="flex-cont-one">
+                    <div class="item-cont">{{item.addtime}}</div>
+                    <div>
+                        <span>消费</span>
+                        <span style="color: #f54848;">{{item.total}}元</span>
+                    </div>
+                </div>
+                <div class="cont">
+                    <div class="son-item-cont" v-for="sonItem in item.list">
+                        <div class="flex-cont-two">
+                            <div class="son-item">{{sonItem.goodsName}}</div>
+                            <div>
+                                <span>{{sonItem.num}} x </span>
+                                <span>{{sonItem.price}} = </span>
+                                <span>{{sonItem.num * sonItem.price}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="no-order-cont" v-show='message'>{{message}}</div>
+        </div>
+        <div class="loading-cont" v-else>拼命加载中···</div>
+    </div>
+</body>
+<script src="./commonJs/lib.min.js"></script>
+<script src="./js/myOrder.js"></script>
+</html>

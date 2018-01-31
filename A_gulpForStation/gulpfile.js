@@ -23,9 +23,6 @@ const paths = {
 };
 
 const outPaths = {
-    css: 'dist/css/',
-    js: 'dist/js/',
-    common: 'dist/commonJs/',
     build: 'dist/',
     icon: 'dist/css/font_icon/'
 };

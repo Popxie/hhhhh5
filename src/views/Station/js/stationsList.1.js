@@ -53,8 +53,8 @@ new Vue({
         isSendRequest: false,
         api: {
             // url: 'http://192.168.1.23:8080', // 本地
-            // url: 'http://test-api.xiaojubianli.com:8080', // 测试
-            url: 'https://mgoapi.18jian.cn', // 线上
+            url: 'http://test-api.xiaojubianli.com:8080', // 测试
+            // url: 'https://mgoapi.18jian.cn', // 线上
         },
         path: {
             region: '/api-driver-web/station/region/',
@@ -89,6 +89,9 @@ new Vue({
         // 1.1当用户拒绝获取gps的时候
         //  通过 ’杭州‘ 获取杭州市的 id
         getCityId(val) {
+            // var url = 'http://192.168.1.23:8080/api-driver-web/station/region/' + val;
+            // var url = 'http://test-api.xiaojubianli.com:8080/api-driver-web/station/region/' + val;
+            // var url = 'https://mgoapi.18jian.cn/api-driver-web/station/region/' + val;
             this.$http.get(this.api.url + this.path.region + val)
                 .then((res) => {
                     if (res.data.error_code === 0) {
@@ -99,49 +102,38 @@ new Vue({
                     }
                 })
                 .catch((err) => {
-                    this.alertFn('系统异常，请稍后再试!')
+                    this.alertFn('系统异常，请稍后再试1!')
                 })
         },
         // 1.2 通过获取到的城市id来获取默认省市的数据
         getDataList(val) {
+            // var url = 'http://192.168.1.23:8080/api-driver-web/station/station/' + val;
+            // var url = 'http://test-api.xiaojubianli.com:8080/api-driver-web/station/station/' + val;
+            // var url = 'https://mgoapi.18jian.cn/api-driver-webstation/station/' + val;
             this.$http.get(this.api.url + this.path.station + val)
                 .then((res) => {
                     if (res.data.error_code === 0) {
-                        res.data.data.forEach((item) => {
-                            if(!item.imgUrl) {
-                                item.imgUrl = 'http://p1lw91kqi.bkt.clouddn.com/share_logo.png'
-                            }
-                            this.dataList.push(item);
-                        })
-                        // this.dataList = res.data.data;
-
+                        this.dataList = res.data.data;
                     } else {
                         this.alertFn(err.data.err_msg)
                     }
                 })
                 .catch((err) => {
-                    this.alertFn('系统异常，请稍后再试!')
+                    this.alertFn('系统异常，请稍后再试2!')
                 })
         },
         // 用户 同意获取gps
         getDataListByAgree(val) {
             let self = this;
+            // var url = 'http://192.168.1.23:8080/api-driver-web/station/station/distance';
+            // var url = 'http://test-api.xiaojubianli.com:8080/api-driver-web/station/station/distance';
+            // var url = 'https://mgoapi.18jian.cn/api-driver-web/station/station/distance';
             self.$http.get(this.api.url + this.path.distance, { params: val })
                 .then((res) => {
-                    if (res.data.error_code === 0) {
-                        res.data.data.forEach((item) => {
-                            if(!item.imgUrl) {
-                                item.imgUrl = 'http://p1lw91kqi.bkt.clouddn.com/share_logo.png'
-                            }
-                            this.dataList.push(item);
-                        })
-                        // this.dataList = res.data.data;
-                    } else {
-                        this.alertFn(err.data.err_msg)
-                    }
+                    self.dataList = res.data.data;
                 })
                 .catch((err) => {
-                    self.alertFn('系统异常，请稍后再试!')
+                    self.alertFn('系统异常，请稍后再试3!')
                 })
         },
         // 获取微信tick，完成验签
@@ -165,7 +157,7 @@ new Vue({
                             signature: sha1(preSha)
                         }
                         wx.config({
-                            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                            debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                             appId: "wxd4c744355b802aec",
                             timestamp: signResult.timestamp,
                             nonceStr: signResult.noncestr,
@@ -175,7 +167,7 @@ new Vue({
                         self.wxReady();
                     }
                 }).catch((err) => {
-                    self.alertFn('系统异常，请稍后再试!')
+                    self.alertFn('系统异常，请稍后再试4!')
                 });
         },
         wxReady() {
@@ -285,6 +277,9 @@ new Vue({
         },
         // 获取省份列表
         getProvinceList() {
+            // let url = 'http://192.168.1.23:8080/api-driver-web/station/province';
+            // let url = 'http://test-api.xiaojubianli.com:8080/api-driver-web/station/province';
+            // let url = 'https://mgoapi.18jian.cn/api-driver-web/station/province';
             this.$http.get(this.api.url + this.path.province)
                 .then(function (res) {
                     if (res.data.error_code === 0) {
@@ -304,12 +299,14 @@ new Vue({
                     }
 
                 }).catch(() => {
-                    this.alertFn('系统异常，请稍后再试!')
+                    this.alertFn('系统异常，请稍后再试5!')
                 });
         },
         // 获取城市列表
         getCityList(val) {
             let self = this;
+            // let url = 'http://test-api.xiaojubianli.com:8080/api-driver-web/station/lowerLevel/' + val;
+            // let url = 'https://mgoapi.18jian.cn/api-driver-web/station/lowerLevel/' + val;
             self.$http.get(this.api.url + this.path.lowerLevel + val)
                 .then((res) => {
                     if (res.data.error_code === 0) {
@@ -342,6 +339,8 @@ new Vue({
         },
         // 获取 区域列表
         getAreaList(val) {
+            // let url = 'http://test-api.xiaojubianli.com:8080/api-driver-web/station/lowerLevel/' + val;
+            // let url = 'https://mgoapi.18jian.cn/api-driver-web/station/lowerLevel/' + val;
             this.$http.get(this.api.url + this.path.lowerLevel + val)
                 .then((res) => {
                     if (res.data.error_code === 0) {
@@ -375,6 +374,7 @@ new Vue({
         },
         itemClick(item, index) {
             sessionStorage.setItem('id', item.id);
+            console.log('sessionStorage.getItem("id")11', sessionStorage.getItem("id"));
             // window.location.href = 'http://192.168.1.16:3001/src/views/Station/stationDetails.html';
             // window.location.href = 'https://mgo.18jian.cn/station/Station/stationDetails.html';
             window.location.href = 'https://h5.xiaojubianli.com/station/Station/stationDetails.html';
