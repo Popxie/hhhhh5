@@ -107,13 +107,20 @@ new Vue({
             this.$http.get(this.api.url + this.path.station + val)
                 .then((res) => {
                     if (res.data.error_code === 0) {
+                        // 每次请求前的清空下数组，不然数据会累加，在来回切换区域选择的时候
+                        this.dataList = [];
                         res.data.data.forEach((item) => {
                             if(!item.imgUrl) {
-                                item.imgUrl = 'http://p1lw91kqi.bkt.clouddn.com/share_logo.png'
+                                item.imgUrl = 'http://p1lw91kqi.bkt.clouddn.com/defaultPic.jpg';
+                            }
+                            if(item.distance >= 1000) {
+                                item.distance = (item.distance/1000).toFixed(1)
+                                item.showM = false;
+                            } else {
+                                item.showM = true;
                             }
                             this.dataList.push(item);
                         })
-                        // this.dataList = res.data.data;
 
                     } else {
                         this.alertFn(err.data.err_msg)
@@ -131,11 +138,16 @@ new Vue({
                     if (res.data.error_code === 0) {
                         res.data.data.forEach((item) => {
                             if(!item.imgUrl) {
-                                item.imgUrl = 'http://p1lw91kqi.bkt.clouddn.com/share_logo.png'
+                                item.imgUrl = 'http://p1lw91kqi.bkt.clouddn.com/defaultPic.jpg';
+                            }
+                            if(item.distance >= 1000) {
+                                item.distance = (item.distance/1000).toFixed(1)
+                                item.showM = false;
+                            } else {
+                                item.showM = true;
                             }
                             this.dataList.push(item);
                         })
-                        // this.dataList = res.data.data;
                     } else {
                         this.alertFn(err.data.err_msg)
                     }

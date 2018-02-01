@@ -63,6 +63,7 @@ body {
 .scroll-cont {
   height: 92%;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .scroll-cont .item-cont {
   height: 2.4rem;

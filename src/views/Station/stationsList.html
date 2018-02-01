@@ -63,7 +63,8 @@
                         <div class="sencond-line">
                             <p>{{item.address}}</p>
                             <strong>{{item.distance}}
-                                <span v-if="isShowM && item.type !== 2">米</span>
+                                <span v-if="isShowM && item.type !== 2 && item.showM">米</span>
+                                <span v-else-if="isShowM && item.type !== 2 && !item.showM">公里</span>
                             </strong>
                         </div>
                     </div>
