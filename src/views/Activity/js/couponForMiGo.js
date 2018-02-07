@@ -9,6 +9,46 @@ new Vue({
             shortMsg: '',
             appid: '1002',
         },
+        items: [
+
+        ],
+        items2: [
+            {
+                name: 1
+            },
+            {
+                name: 2
+            },
+            {
+                name: 3
+            },
+            {
+                name: 4
+            },
+            {
+                name: 5
+            },
+            {
+                name: 6
+            },
+            {
+                name: 7
+            },
+            {
+                name: 8
+            },
+            {
+                name: 9
+            },
+            {
+                name: 10
+            },
+        ],
+        total: 88,
+        pages: '',
+        counts: 1,
+        showLoading: false,
+        showTitle: false,
         type: 1,
         sendBtnText: '发送验证码',
         jsApiList: [
@@ -17,6 +57,30 @@ new Vue({
     },
     created() {
         this.getWeixinJsapiTicket();
+    },
+    mounted() {
+        let self = this
+        window.onscroll = function() {
+            let top = document.documentElement.scrollTop || document.body.scrollTop;
+            let canRemoveDistance = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            // 向上取整
+            self.pages = Math.ceil(self.total/10)
+            if(self.counts < self.pages) {
+                self.showLoading = true;
+            }
+            if(top == canRemoveDistance && self.counts < self.pages) {
+                self.counts++;
+                console.log('self.counts:', self.counts);
+                setTimeout( () => {
+                    self.items = self.items.concat(self.items2);
+                    self.showLoading = false;
+                }, 1000)
+            } else if(top == canRemoveDistance && self.counts >= self.pages) {
+                self.showTitle = true;
+                self.showLoading = false;
+            }
+
+        }
     },
     methods: {
         alertFn(msg) {

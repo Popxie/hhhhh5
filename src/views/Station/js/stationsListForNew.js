@@ -45,21 +45,29 @@ new Vue({
             'onMenuShareAppMessage',
             'getLocation'
         ],
+        total: '',
+        pages: '',
+        counts: 1,
+        showLoading: false,
+        showTitle: false,
         ajaxObj: {
-            latitude: '',   // 维度
-            longitude: '',  // 经度
+            latitude: '30.2468997100',   // 维度
+            longitude: '120.1745423900',  // 经度
+            currentPage: 1,
+            pageSize: 10,
         },
         cityId: '',
         isSendRequest: false,
         api: {
             // url: 'http://192.168.1.23:8080', // 本地
-            // url: 'http://test-api.xiaojubianli.com:8080', // 测试
-            url: 'https://mgoapi.18jian.cn', // 线上
+            url: 'http://test-api.xiaojubianli.com:8080', // 测试
+            // url: 'https://mgoapi.18jian.cn', // 线上
         },
         path: {
             region: '/api-driver-web/station/region/',
             station: '/api-driver-web/station/station/',            // 获取默认省市的数据列表
-            distance: '/api-driver-web/station/station/distance',   // 获取距离
+            distance: '/api-driver-web/station/station/distances',   // 获取距离
+
             province: '/api-driver-web/station/province',       // 获取省份
             lowerLevel: '/api-driver-web/station/lowerLevel/'   // 获取 市。区列表
         }
@@ -67,8 +75,39 @@ new Vue({
     created() {
         this.getProvinceList();
         this.getWeixinJsapiTicket();
-        // 在浏览器测试的时候再打开 看下页面布局而已
+
+        // 在浏览器测试的时候再打开 看下页面布局而已  将 isShowSearch = true;
         // this.getCityId('杭州市');
+
+        // 测试专用 直接跳过微信sdk
+        // this.getDataListByAgree(this.ajaxObj);
+    },
+    mounted() {
+        let self = this
+        if(!self.isShowSearch) {
+            window.onscroll = function() {
+                let top = document.documentElement.scrollTop || document.body.scrollTop;
+                let canRemoveDistance = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                // 向上取整
+                self.pages = Math.ceil(self.total/10)
+                if(self.counts < self.pages) {
+                    self.showLoading = true;
+                }
+                if(top === canRemoveDistance && self.counts < self.pages) {
+                    self.counts++;
+                    console.log('self.counts:', self.counts)
+                    setTimeout( () => {
+                        self.ajaxObj.currentPage = self.counts;
+                        self.getDataListByAgree(self.ajaxObj);
+                    }, 1000)
+                } else if(top == canRemoveDistance && self.counts >= self.pages) {
+                    self.showTitle = true;
+                    self.showLoading = false;
+                }
+
+            }
+        }
+
     },
     methods: {
         alertFn(msg) {
@@ -136,7 +175,7 @@ new Vue({
             self.$http.get(this.api.url + this.path.distance, { params: val })
                 .then((res) => {
                     if (res.data.error_code === 0) {
-                        res.data.data.forEach((item) => {
+                        res.data.data.data.forEach((item) => {
                             if(!item.imgUrl) {
                                 item.imgUrl = 'http://p1lw91kqi.bkt.clouddn.com/defaultPic.jpg';
                             }
@@ -148,12 +187,14 @@ new Vue({
                             }
                             this.dataList.push(item);
                         })
+                        this.total = res.data.data.totalCount;
+                        self.showLoading = false;
                     } else {
                         this.alertFn(err.data.err_msg)
                     }
                 })
                 .catch((err) => {
-                    self.alertFn('系统异常，请稍后再试!')
+                    self.alertFn('系统异常3，请稍后再试!')
                 })
         },
         // 获取微信tick，完成验签
@@ -386,6 +427,7 @@ new Vue({
         itemClick(item, index) {
             sessionStorage.setItem('id', item.id);
             // window.location.href = 'http://192.168.1.16:3001/src/views/Station/stationDetails.html';
+            // window.location.href = 'https://mgo.18jian.cn/station/Station/stationDetails.html';
             window.location.href = 'https://h5.xiaojubianli.com/station/Station/stationDetails.html';
 
         },

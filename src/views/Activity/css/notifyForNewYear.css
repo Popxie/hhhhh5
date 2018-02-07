@@ -1,0 +1,36 @@
+* {
+  margin: 0;
+}
+[v-cloak] {
+  display: none !important;
+}
+a {
+  text-decoration: none!important;
+}
+html {
+  height: 100%;
+  width: 100%;
+}
+body {
+  background: #fff;
+  height: 100%;
+  position: relative;
+}
+[v-cloak] {
+  display: none !important;
+}
+.container {
+  padding: 0.37333333rem 0.37333333rem 0;
+}
+.container p {
+  line-height: 0.53333333rem;
+}
+.container .title {
+  font-size: 0.4rem;
+  font-weight: 900;
+}
+.container .son-title {
+  font-size: 0.37333333rem;
+  font-weight: 600;
+  padding: 0.08rem 0;
+}
