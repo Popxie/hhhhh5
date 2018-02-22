@@ -60,8 +60,8 @@ new Vue({
         isSendRequest: false,
         api: {
             // url: 'http://192.168.1.23:8080', // 本地
-            url: 'http://test-api.xiaojubianli.com:8080', // 测试
-            // url: 'https://mgoapi.18jian.cn', // 线上
+            // url: 'http://test-api.xiaojubianli.com:8080', // 测试
+            url: 'https://mgoapi.18jian.cn', // 线上
         },
         path: {
             region: '/api-driver-web/station/region/',
@@ -427,9 +427,7 @@ new Vue({
         itemClick(item, index) {
             sessionStorage.setItem('id', item.id);
             // window.location.href = 'http://192.168.1.16:3001/src/views/Station/stationDetails.html';
-            // window.location.href = 'https://mgo.18jian.cn/station/Station/stationDetails.html';
-            window.location.href = 'https://h5.xiaojubianli.com/station/Station/stationDetails.html';
-
+            window.location.href = 'https://h5.xiaojubianli.com/stationForNew/Station/stationDetailsForNew.html';
         },
         cancleClick() {
             this.visibleArea = this.visibleCity = this.visibleProvince = false;
