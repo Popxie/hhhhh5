@@ -31,7 +31,7 @@ new Vue({
             },
             {
                 name: 'dubbo-admin',
-                link: 'http://tech.xiaojubianli.com/dubbo-admin/',
+                link: 'http://tech.xiaojubianli.com/dubbokeeper/',
             },
             {
                 name:'敬请期待~',
