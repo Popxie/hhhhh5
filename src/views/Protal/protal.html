@@ -13,14 +13,9 @@
 <body>
     <div id="app" v-cloak :class="{bodyStyle: isShow}">
         <div class="details-cont">
-            <el-row :gutter="20">
-                <el-col :span="6" v-for="(item, index) in firstList">
+            <el-row :gutter="20" v-for="obj in list">
+                <el-col :span="6" v-for="(item, index) in obj.sonList">
                     <div class="item-style" @click="firstLineClick(item, index)">{{item.name}}</div>
-                </el-col>
-            </el-row>
-            <el-row :gutter="20">
-                <el-col :span="6" v-for="(item, index) in secondList">
-                    <div class="item-style second-line" @click="secondLineClick(item, index)">{{item.name}}</div>
                 </el-col>
             </el-row>
         </div>
