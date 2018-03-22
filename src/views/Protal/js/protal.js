@@ -48,16 +48,8 @@ new Vue({
     },
     mounted() {},
     methods: {
-        firstLineClick(item, index) {
-            // window.location.href = item.link;
+        itemClick(item, index) {
             window.open(item.link)
-        },
-        secondLineClick(item, index) {
-            if (!item.link) {
-                this.$message('暂时还未开放，敬请期待~ 😁')
-            } else {
-                window.location.href = item.link
-            }
         },
     },
 })
