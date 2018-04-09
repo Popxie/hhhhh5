@@ -42,13 +42,22 @@ new Vue({
             })
         },
         judgeWidth() {
-            console.log('width:', window.screen.width)
             const width = window.screen.width
+            const length = this.stationInfo.address.length
+            const address = this.stationInfo.address
             if (width < 375) {
-                this.stationInfo.addressCopy = this.adrSeparate(this.stationInfo.address, 17)
+                if (length > 20) {
+                    this.stationInfo.addressCopy = this.adrSeparate(this.stationInfo.address, 20)
+                    return
+                }
+                this.stationInfo.addressCopy = address
+            }
+            if (length > 22) {
+                this.stationInfo.addressCopy = this.adrSeparate(this.stationInfo.address, 22)
                 return
             }
-            this.stationInfo.addressCopy = this.adrSeparate(this.stationInfo.address, 21)
+            this.stationInfo.addressCopy = address
+
         },
         adrSeparate(str, num) {
             if (num) {
@@ -58,7 +67,6 @@ new Vue({
         },
         mapClick() {
             this.clipboardFn('.stationName')
-            console.log(this.adrSeparate(this.stationInfo.address, 20))
         },
     },
 })

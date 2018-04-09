@@ -125,7 +125,7 @@ new Vue({
             sessionStorage.setItem('id', item.id)
             window.location.href =
                 // 'https://h5.xiaojubianli.com/stationForDiDi/Station/stationDetailsForDiDi.html'
-                'http://192.168.1.118:3001/src/views/Station/stationDetailsForDiDi.html'
+                'http://192.168.1.61:3001/src/views/Station/stationDetailsForDiDi.html'
         },
     },
 })
