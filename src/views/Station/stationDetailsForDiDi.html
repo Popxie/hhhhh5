@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta region="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>站点详情</title>
-    <link rel="icon" type="image/x-icon" href="./img/favicon.ico"/>
+    <link rel="icon" type="image/x-icon" href="./img/favicon.ico" />
     <link rel="stylesheet" href="./css/mint-ui.min.css">
     <link rel="stylesheet" href="./css/stationDetailsForDiDi.css">
     <link rel="stylesheet" href="./css/font_icon/iconfont.css">
@@ -19,11 +19,10 @@
         <div class="time-cont">
             <p>营业时间：{{stationInfo.workTimeDesc}}</p>
         </div>
-        <div class="station" @click="mapClick">
-            地址：{{stationInfo.address}}
+        <div class="station stationName" :data-clipboard-text="stationInfo.address" @click="mapClick">
+            地址：{{stationInfo.addressCopy}}
             <span class="cont">
-                <span style="color: orange">地图</span>
-                <i class="iconfont icon-jiantouyou"></i>
+                点击复制
             </span>
         </div>
         <div class="bottom-cont">
@@ -34,9 +33,8 @@
         </div>
     </div>
     <script src="./commonJs/lib.min.js"></script>
-    <!-- <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script> -->
-    <!-- <script src="./commonJs/sha1.min.js"></script> -->
     <script src="./js/stationDetailsForDiDi.js"></script>
+    <script src="./js/clipboard.min.js"></script>
 </body>
 
 </html>

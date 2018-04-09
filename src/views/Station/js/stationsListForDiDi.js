@@ -24,11 +24,16 @@ new Vue({
         },
     },
     created() {
-        this.getDataListByAgree(this.ajaxObj)
         const latitude = this.getQueryString('latitude')
         const longitude = this.getQueryString('longitude')
-        console.log('latitude:', latitude)
-        console.log('longitude:', longitude)
+        this.ajaxObj.latitude = latitude
+        this.ajaxObj.longitude = longitude
+        sessionStorage.setItem('latitude', latitude)
+        sessionStorage.setItem('longitude', longitude)
+        this.getDataList(this.ajaxObj)
+        console.log('latitude:1', latitude)
+        console.log('longitude:2', longitude)
+
     },
     mounted() {
         let self = this
@@ -48,7 +53,7 @@ new Vue({
                 console.log('self.counts:', self.counts)
                 setTimeout(() => {
                     self.ajaxObj.currentPage = self.counts
-                    self.getDataListByAgree(self.ajaxObj)
+                    self.getDataList(self.ajaxObj)
                 }, 1000)
             } else if (top == canRemoveDistance && self.counts >= self.pages) {
                 self.showTitle = true
@@ -83,8 +88,8 @@ new Vue({
             if (r != null) return unescape(r[2])
             return null
         },
-        // 用户 同意获取gps
-        getDataListByAgree(val) {
+        // 用户
+        getDataList(val) {
             let self = this
             self.$http
                 .get(this.api.url + this.path.distance, { params: val })
@@ -106,19 +111,21 @@ new Vue({
                             this.dataList.push(item)
                         })
                         this.total = res.data.data.totalCount
+                        this.isShowM = true
                         self.showLoading = false
                     } else {
                         this.alertFn(err.data.err_msg)
                     }
                 })
                 .catch(err => {
-                    self.alertFn('系统异常3，请稍后再试!')
+                    self.alertFn('系统异常，请稍后再试!')
                 })
         },
         itemClick(item, index) {
             sessionStorage.setItem('id', item.id)
             window.location.href =
-                'https://h5.xiaojubianli.com/stationForDiDi/Station/stationDetailsForDiDi.html'
+                // 'https://h5.xiaojubianli.com/stationForDiDi/Station/stationDetailsForDiDi.html'
+                'http://192.168.1.118:3001/src/views/Station/stationDetailsForDiDi.html'
         },
     },
 })
