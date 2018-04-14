@@ -22,6 +22,7 @@ new Vue({
             .then((res) => {
                 !res.data.data.imgUrl ? res.data.data.imgUrl = 'http://p1lw91kqi.bkt.clouddn.com/defaultPic.jpg' : '';
                 this.stationInfo = Object.assign({}, this.stationInfo, res.data.data);
+                this.stationInfo.imgUrl = `${this.stationInfo.imgUrl}?imageView2/1/w/720/h/480`
             })
             this.getWeixinJsapiTicket();
     },

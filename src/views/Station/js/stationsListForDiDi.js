@@ -11,8 +11,8 @@ new Vue({
         showLoading: false,
         showTitle: false,
         ajaxObj: {
-            latitude: '30.2468997100', // 维度
-            longitude: '120.1745423900', // 经度
+            latitude: '', // 维度 30.2468997100
+            longitude: '', // 经度 120.1745423900
             currentPage: 1,
             pageSize: 10,
         },
@@ -50,7 +50,6 @@ new Vue({
             }
             if (top === canRemoveDistance && self.counts < self.pages) {
                 self.counts++
-                console.log('self.counts:', self.counts)
                 setTimeout(() => {
                     self.ajaxObj.currentPage = self.counts
                     self.getDataList(self.ajaxObj)
@@ -98,7 +97,9 @@ new Vue({
                         res.data.data.data.forEach(item => {
                             if (!item.imgUrl) {
                                 item.imgUrl =
-                                    'http://p1lw91kqi.bkt.clouddn.com/defaultPic.jpg'
+                                    'http://p1lw91kqi.bkt.clouddn.com/defaultPic.jpg?imageView2/1/w/180/h/120'
+                            } else {
+                                item.imgUrl = `${item.imgUrl}?imageView2/1/w/180/h/120`
                             }
                             if (item.distance >= 1000) {
                                 item.distance = (item.distance / 1000).toFixed(
@@ -124,8 +125,8 @@ new Vue({
         itemClick(item, index) {
             sessionStorage.setItem('id', item.id)
             window.location.href =
-                // 'https://h5.xiaojubianli.com/stationForDiDi/Station/stationDetailsForDiDi.html'
-                'http://192.168.1.61:3001/src/views/Station/stationDetailsForDiDi.html'
+                'https://h5.xiaojubianli.com/stationForDiDi/Station/stationDetailsForDiDi.html'
+                // 'http://xx.xx:3001/src/views/Station/stationDetailsForDiDi.html'
         },
     },
 })

@@ -22,57 +22,6 @@ body {
 .container {
   padding: 0 0.26666667rem;
 }
-.container .isUsePosition {
-  position: fixed;
-  left: 0;
-  width: 100%;
-  z-index: 99;
-  background: #fff;
-}
-.container .flex-cont {
-  display: flex;
-}
-.container .flex-cont .select-cont {
-  font-size: 0.37333333rem;
-  height: 1.17333333rem;
-  line-height: 1.17333333rem;
-  width: 33%;
-  color: #343434;
-  text-align: center;
-  border-bottom: 1px solid #d9d9d9;
-  position: relative;
-}
-.container .flex-cont .select-cont span {
-  padding-left: 0.13333333rem;
-}
-.container .flex-cont .line-left {
-  position: absolute;
-  left: 0;
-  top: 0.26666667rem;
-  box-sizing: border-box;
-  width: 0.01333333rem;
-  height: 0.53333333rem;
-  border-right: 1px solid #d9d9d9;
-}
-.container .flex-cont .line-right {
-  position: absolute;
-  right: 0;
-  top: 0.26666667rem;
-  box-sizing: border-box;
-  width: 0.01333333rem;
-  height: 0.53333333rem;
-  border-right: 1px solid #d9d9d9;
-}
-.active {
-  height: 100% !important;
-}
-.isUsePadding {
-  padding-top: 1.17333333rem;
-}
-.isUseOverflow {
-  height: 92%;
-  overflow: auto;
-}
 .scroll-cont {
   -webkit-overflow-scrolling: touch;
 }
@@ -86,11 +35,10 @@ body {
 }
 .scroll-cont .item-cont .position-cont .img-cont {
   width: 2.4rem;
-  height: 1.6rem;
+  padding-top: 12px;
 }
 .scroll-cont .item-cont .position-cont .img-cont img {
   width: 100%;
-  height: 100%;
 }
 .scroll-cont .item-cont .position-cont .detail-cont {
   padding-left: 0.26666667rem;
@@ -131,33 +79,4 @@ body {
 }
 .mint-toast-text {
   font-size: 0.42666667rem;
-}
-.mint-popup.mint-popup-bottom {
-  width: 100%;
-}
-.picker {
-  width: 100%;
-}
-.picker-items {
-  margin-top: 0.53333333rem;
-}
-.picker-item {
-  font-size: 0.42666667rem;
-}
-.btn-flex-cont {
-  margin-top: 0.4rem;
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.53333333rem;
-}
-.btn-flex-cont .cancle {
-  margin-left: 0.26666667rem;
-  color: #828282;
-}
-.btn-flex-cont .confirm {
-  margin-right: 0.26666667rem;
-  color: #FF9900;
-}
-.mint-popup.mint-popup-bottom {
-  height: 6.66666667rem;
 }

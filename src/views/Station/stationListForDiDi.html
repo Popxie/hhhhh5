@@ -4,6 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta region="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- 禁用缓存 -->
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
     <title>补货站点</title>
     <link rel="icon" type="image/x-icon" href="./img/favicon.ico" />
     <link rel="stylesheet" href="./css/mint-ui.min.css">
@@ -15,11 +19,11 @@
 
 <body>
     <div id="app" v-cloak class="container">
-        <div class="scroll-cont" :class="{ active: isActive,isUsePadding: isShowSearch,isUseOverflow: isShowSearch }">
+        <div class="scroll-cont">
             <div class="item-cont" v-for="(item, index) in dataList" @click="itemClick(item, index)">
                 <div class="position-cont">
                     <div class="img-cont">
-                        <img :src='item.imgUrl' alt="">
+                        <img v-lazy='item.imgUrl'>
                     </div>
                     <div class="detail-cont">
                         <strong class="title">{{item.name}}</strong>

@@ -95,7 +95,6 @@ new Vue({
                 }
                 if(top === canRemoveDistance && self.counts < self.pages) {
                     self.counts++;
-                    console.log('self.counts:', self.counts)
                     setTimeout( () => {
                         self.ajaxObj.currentPage = self.counts;
                         self.getDataListByAgree(self.ajaxObj);
@@ -150,7 +149,9 @@ new Vue({
                         this.dataList = [];
                         res.data.data.forEach((item) => {
                             if(!item.imgUrl) {
-                                item.imgUrl = 'http://p1lw91kqi.bkt.clouddn.com/defaultPic.jpg';
+                                item.imgUrl = 'http://p1lw91kqi.bkt.clouddn.com/defaultPic.jpg?imageView2/1/w/180/h/120';
+                            } else {
+                                item.imgUrl = `${item.imgUrl}?imageView2/1/w/180/h/120`
                             }
                             if(item.distance >= 1000) {
                                 item.distance = (item.distance/1000).toFixed(1)
@@ -177,7 +178,9 @@ new Vue({
                     if (res.data.error_code === 0) {
                         res.data.data.data.forEach((item) => {
                             if(!item.imgUrl) {
-                                item.imgUrl = 'http://p1lw91kqi.bkt.clouddn.com/defaultPic.jpg';
+                                item.imgUrl = 'http://p1lw91kqi.bkt.clouddn.com/defaultPic.jpg?imageView2/1/w/180/h/120';
+                            } else {
+                                item.imgUrl = `${item.imgUrl}?imageView2/1/w/180/h/120`
                             }
                             if(item.distance >= 1000) {
                                 item.distance = (item.distance/1000).toFixed(1)

@@ -23,65 +23,10 @@ body {
 }
 .container {
     padding: 0 10/@375;
-    // 动态修改样式
-    .isUsePosition {
-        position: fixed;
-        left: 0;
-        width: 100%;
-        z-index: 99;
-        background: #fff;
-    }
-    .flex-cont {
-        display: flex;
-        .select-cont {
-            font-size: 14/@375;
-            height: 44/@375;
-            line-height: 44/@375;
-            width: 33%;
-            color: #343434;
-            text-align: center;
-            border-bottom: 1px solid #d9d9d9;
-            position: relative;
-            span {
-                padding-left: 5/@375;
-            }
-        }
-        .line-left {
-            position: absolute;
-            left: 0;
-            top: 10/@375;
-            box-sizing: border-box;
-            width: .5/@375;
-            height: 20/@375;
-            border-right: 1px solid #d9d9d9;
-        }
-        .line-right {
-            position: absolute;
-            right: 0;
-            top: 10/@375;
-            box-sizing: border-box;
-            width: .5/@375;
-            height: 20/@375;
-            border-right: 1px solid #d9d9d9;
-        }
-    }
 }
-.active {
-    height: 100% !important;
-}
-// 动态修改样式
-.isUsePadding {
-    padding-top: 44/@375;
-}
-.isUseOverflow {
-    // 这里高度只能用百分比 不然会出现滚动问题
-    height: 92%;
-    overflow:auto;
-}
+
 .scroll-cont {
-    // 这里高度只能用百分比 不然会出现滚动问题
-    // height: 92%;
-    // overflow:auto;
+    // 解决自然滚动不流畅问题
     -webkit-overflow-scrolling: touch;
     .item-cont {
         height: 90/@375;
@@ -91,10 +36,9 @@ body {
             padding: 15/@375 0;
             .img-cont {
                 width: 90/@375;
-                height: 60/@375;
+                padding-top: 12px;
                 img {
                     width: 100%;
-                    height: 100%;
                 }
             }
             .detail-cont {
@@ -110,7 +54,6 @@ body {
                     font-size: 11/@375;
                     position: relative;
                     margin-top: 5/@375;
-                    // width: 255/@375;
                     p {
                         width: 220/@375;
                     }
@@ -145,33 +88,4 @@ body {
 
 .mint-toast-text {
     font-size: 16/@375;
-}
-.mint-popup.mint-popup-bottom {
-    width: 100%;
-}
-.picker {
-    width: 100%;
-}
-.picker-items {
-    margin-top: 20/@375;
-}
-.picker-item {
-    font-size: 16/@375;
-}
-.btn-flex-cont {
-    margin-top: 15/@375;
-    display: flex;
-    justify-content: space-between;
-    font-size: 20/@375;
-    .cancle {
-        margin-left: 10/@375;
-        color: #828282;
-    }
-    .confirm {
-        margin-right: 10/@375;
-        color: #FF9900;
-    }
-}
-.mint-popup.mint-popup-bottom {
-    height: 250/@375;
 }

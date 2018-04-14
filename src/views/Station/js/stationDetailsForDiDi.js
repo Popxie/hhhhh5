@@ -18,6 +18,7 @@ new Vue({
         this.$http.get(url).then(res => {
             !res.data.data.imgUrl ? (res.data.data.imgUrl = defaultPic) : ''
             this.stationInfo = Object.assign({}, this.stationInfo, res.data.data)
+            this.stationInfo.imgUrl = `${this.stationInfo.imgUrl}?imageView2/1/w/720/h/480`
             this.judgeWidth()
         })
     },
