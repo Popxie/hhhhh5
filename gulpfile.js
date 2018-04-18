@@ -17,9 +17,9 @@ const gulp = require('gulp'), //本地安装gulp所用到的地方
 /*静态文件地址*/
 const paths = {
     views: 'src/views/',
-    stationLess:'src/views/Station/less/',
-    stationHtml: 'src/views/Station/*.html',
-    build: 'dist/'
+    protalLess: 'src/views/Protal/less/',
+    protalHtml: 'src/views/Protal/*.html',
+    build: 'dist/',
 };
 
 const outPaths = {
@@ -35,54 +35,51 @@ gulp.task('delDist', function () {
     ])
 });
 
-// less编译
-gulp.task('less', function () {
-    return watch(paths.stationLess + '*.less', function() { // 时刻监控less文件的变化
-        gulp.src([paths.stationLess + '*.less',`!${paths.stationLess}basic.less`]) //该任务针对的文件
-            .pipe(less()) //该任务调用的模块
-            .pipe(gulp.dest(paths.views+'Station/css')); //将会在下生成xxx.css
-    });
+// 输出Protal模块 不需要编译的js
+gulp.task('outJsForProtal', function () {
+    gulp.src([paths.views+'Protal/commonJs/'+'*.js'])
+        .pipe(gulp.dest(outPaths.build+'views/Protal/commonJs'))
 });
 
-gulp.task('outFontIconForStation', function () {
-    gulp.src([paths.views+'Station/css/font_icon/'+'*.**'])
-        .pipe(gulp.dest(outPaths.build+'views/Station/css/font_icon'))
+gulp.task('outImgForProtal', function () {
+    gulp.src([paths.views+'Protal/img/'+'*.**'])
+        .pipe(gulp.dest(outPaths.build+'views/Protal/img'))
 });
 
-gulp.task('outImgForStation', function () {
-    gulp.src([paths.views+'Station/img/'+'*.**'])
-        .pipe(gulp.dest(outPaths.build+'views/Station/img'))
+gulp.task('outFontIconForProtal', function () {
+    gulp.src([paths.views+'Protal/css/font_icon/'+'*.**'])
+        .pipe(gulp.dest(outPaths.build+'views/Protal/css/font_icon'))
 });
-
-// 输出Station模块不需要编译的js
-gulp.task('outJsForStation', function () {
-    gulp.src([paths.views+'Station/commonJs/'+'*.js'])
-        .pipe(gulp.dest(outPaths.build+'views/Station/commonJs'))
-});
-// 压缩css
-gulp.task('minifycssForStation', function () {
-    return gulp.src(paths.views+'Station/css/*.css')
+gulp.task('minifycssForProtal', function () {
+    return gulp.src(paths.views+'Protal/css/*.css')
         .pipe(minifycss())
         .pipe(rev())
-        .pipe(gulp.dest(outPaths.build + 'views/Station/css'))
+        .pipe(gulp.dest(outPaths.build + 'views/Protal/css'))
         .pipe(rev.manifest('css-rev.json'))
         .pipe(gulp.dest(outPaths.build + 'rev'))
 });
-// 压缩js
-gulp.task('minifyjsForStation', function () {
-    return gulp.src([paths.views + 'Station/js/*.js'])
+
+gulp.task('minifyjsForProtal', function () {
+    return gulp.src([paths.views + 'Protal/js/*.js'])
         .pipe(babel({
             presets: ['es2015']
         }))
         .pipe(uglify())
         .pipe(rev())
-        .pipe(gulp.dest(outPaths.build + 'views/Station/js'))
+        .pipe(gulp.dest(outPaths.build + 'views/Protal/js'))
         .pipe(rev.manifest('js-rev.json'))
         .pipe(gulp.dest(outPaths.build + 'rev'))
 });
+// less编译
+gulp.task('less', function () {
+    return watch(paths.protalLess + '*.less', function() { // 时刻监控less文件的变化
+        gulp.src([paths.protalLess + '*.less',`!${paths.protalLess}basic.less`]) //该任务针对的文件
+            .pipe(less()) //该任务调用的模块
+            .pipe(gulp.dest(paths.views+'Protal/css')); //将会在下生成xxx.css
+    });
+});
 
-// 压缩html
-gulp.task('minifyhtmlStation', function () {
+gulp.task('minifyhtmlProtal', function () {
     const options = {
         collapseWhitespace:true,
         collapseBooleanAttributes:true,
@@ -93,21 +90,21 @@ gulp.task('minifyhtmlStation', function () {
         minifyJS:true,
         minifyCSS:true
     };
-    return gulp.src([outPaths.build + 'rev/*.json', paths.stationHtml])
+    return gulp.src([outPaths.build + 'rev/*.json', paths.protalHtml])
         .pipe(revCollector({replaceReved: true}))
         .pipe(htmlmin(options))
-        .pipe(gulp.dest(outPaths.build+'views/Station'))
+        .pipe(gulp.dest(outPaths.build+'views/Protal'))
 });
 
 gulp.task('default', function (done) {
     runSequence(
         'delDist',
-        'outImgForStation',
-        'outFontIconForStation',
-        'outJsForStation',
-        'minifycssForStation',
-        'minifyjsForStation',
-        'minifyhtmlStation',
+        'outImgForProtal',
+        'outFontIconForProtal',
+        'outJsForProtal',
+        'minifycssForProtal',
+        'minifyjsForProtal',
+        'minifyhtmlProtal',
         done
     )
 });

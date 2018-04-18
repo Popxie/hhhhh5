@@ -6,6 +6,9 @@ body {
   height: 100%;
   background: #ffffff;
 }
+[v-cloak] {
+  display: none !important;
+}
 .container {
   padding: 0.26666667rem;
 }

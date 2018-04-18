@@ -15,33 +15,49 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="title">魔急便奖励活动公告</div>
+    <div id="app" v-cloak class="container">
+        <div v-if="initShow">
+            <div v-if="isShowDefaut">
+                <div class="title">魔急便奖励活动公告</div>
+                <p class="title-first">一、换新展陈司机：</p>
+                <p class="title-third">2018年4月11日-2018年12月31日，自司机加入日起，安装新展陈司机可享受一年保底奖励；安装新展陈司机前三月无条件享双倍提成（即40%销售提成）；每周完成一定任务享100元保底收入（注：三月后完成保底任务享双倍提成）。</p>
 
-        <p class="title-first">一、换新展陈司机：</p>
-        <p class="title-third">2018年4月11日-2018年12月31日，自司机加入日起，安装新展陈司机可享受一年保底奖励；安装新展陈司机前三月无条件享双倍提成（即40%销售提成）；每周完成一定任务享100元保底收入（注：三月后完成保底任务享双倍提成）。</p>
+                <p class="title-first">二、老展陈司机：</p>
+                <p class="title-second">1.拉新乘客奖：</p>
+                <p class="title-third">每日新用户购买奖励师傅第1单1元，第2单2元，第3单3元，第4单4元，第5单5元，第6单开始无奖励（实时发放，累计每日完成5个新用户订单可奖励15元）。</p>
 
-        <p class="title-first">二、老展陈司机：</p>
-        <p class="title-second">1.拉新乘客奖：</p>
-        <p class="title-third">每日新用户购买奖励师傅第1单1元，第2单2元，第3单3元，第4单4元，第5单5元，第6单开始无奖励（实时发放，累计每日完成5个新用户订单可奖励15元）。</p>
+                <p class="title-second">2.单日冲单奖：</p>
+                <p class="title-third">每日师傅完成订单满5单奖励10元（次日核算后发放）。</p>
+                <p class="title-third">特别说明：特殊商品（如:coco小黄鸭棒棒糖），0.01元购买的订单不计入单日冲单奖。</p>
 
-        <p class="title-second">2.单日冲单奖：</p>
-        <p class="title-third">每日师傅完成订单满5单奖励10元（次日核算后发放）。</p>
-        <p class="title-third">特别说明：特殊商品（如:coco小黄鸭棒棒糖），0.01元购买的订单不计入单日冲单奖。</p>
+                <p class="title-second">3.每日精英奖：</p>
+                <p class="title-third">每日销售总订单数第一的师傅奖励66元（次日核算后发放）。</p>
 
-        <p class="title-second">3.每日精英奖：</p>
-        <p class="title-third">每日销售总订单数第一的师傅奖励66元（次日核算后发放）。</p>
-
-        <p class="title-second">4.展陈费奖励：</p>
-        <p class="title-third">奖励金额：3.5元/天（次日发放前一日展陈奖励）。</p>
-        <p class="title-third">奖励规则：每日0:00-22:00可上传展陈照片；当日上传照片且审核通过次日发放奖励；照片要求规范见上传照片页面说明。</p>
-        <p class="title-third">上传照片路径：合伙人公众号-自助查询-个人中心-上传展陈</p>
+                <p class="title-second">4.展陈费奖励：</p>
+                <p class="title-third">奖励金额：3.5元/天（次日发放前一日展陈奖励）。</p>
+                <p class="title-third">奖励规则：每日0:00-22:00可上传展陈照片；当日上传照片且审核通过次日发放奖励；照片要求规范见上传照片页面说明。</p>
+                <p class="title-third">上传照片路径：合伙人公众号-自助查询-个人中心-上传展陈</p>
 
 
-        <p class="title-first">三、免补押金换新展陈任务：</p>
-        <p class="title-third">2018年4月10日至2018年4月20日时间段内累计完成15个新用户订单即可获得免补押金升级展陈资格；</p>
-        <p class="title-third">注：获得免补押金更换展陈资格的司机2018年5月1日前更换新版展陈将获得魔急便赠送的礼品一份。</p>
+                <p class="title-first">三、免补押金换新展陈任务：</p>
+                <p class="title-third">2018年4月10日至2018年4月20日时间段内累计完成15个新用户订单即可获得免补押金升级展陈资格；</p>
+                <p class="title-third">注：获得免补押金更换展陈资格的司机2018年5月1日前更换新版展陈将获得魔急便赠送的礼品一份。</p>
+            </div>
+            <div v-else>
+                <div class="title">专车测试司机端奖励活动</div>
+                <p class="title-first">一、司机奖励活动</p>
+                <p class="title-third">1.展陈费：奖励5元/日；由专车事业部提供司机是否出车数据，次日发放前一日展陈费用</p>
+                <p class="title-third">2.销售提成：每单成交金额30%销售提成，进口红牛销售额100%成。</p>
+                <p class="title-third">3.派样商品奖励：新用户0.01元购买，司机奖励奖2元/单，每日奖励上限15单奖励。</p>
+                <p class="title-first">二、司机奖励活动</p>
+                <p class="title-third">活动咨询：联系电话18589068668（微信同号）</p>
+                <p class="title-third">客服咨询：联系电话15002439091（同微信号）</p>
+            </div>
+        </div>
+
     </div>
+    <script src="./commonJs/lib.min.js"></script>
+    <script src="./js/driverReward.js"></script>
 </body>
 
 </html>
