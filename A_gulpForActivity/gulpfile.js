@@ -13,6 +13,9 @@ const gulp = require('gulp'), //本地安装gulp所用到的地方
     rename = require('gulp-rename'),        // 重命名
     runSequence = require('run-sequence');   // 顺序执行
 
+/**
+ *  因为微信浏览器缓存机制导致 使用hash值的js 一旦更改，发布到线上，缓存原因就会导致之前的js找不到了，（我的发现是这样子的，js里面的代码根本没有执行，所以这样猜想。所以取消对js的hash设置就解决了这个问题！）
+ */
 
 /*静态文件地址*/
 const paths = {
@@ -66,10 +69,10 @@ gulp.task('minifyjsForActivity', function () {
             presets: ['es2015']
         }))                     // 编译es6 => es5   需要（npm install --save-dev gulp-babel babel-preset-es2015）
         .pipe(uglify())         // 压缩js
-        .pipe(rev())            // 添加md5签名  set hash key
+        // .pipe(rev())            // 添加md5签名  set hash key
         .pipe(gulp.dest(outPaths.build + 'views/Activity/js')) // 输出
-        .pipe(rev.manifest('js-rev.json')) // set hash key json
-        .pipe(gulp.dest(outPaths.build + 'rev'))   // 将 rev-manifest.json 保存到 rev 目录内
+        // .pipe(rev.manifest('js-rev.json')) // set hash key json
+        // .pipe(gulp.dest(outPaths.build + 'rev'))   // 将 rev-manifest.json 保存到 rev 目录内
 });
 
 gulp.task('minifyhtmlActivity', function () {

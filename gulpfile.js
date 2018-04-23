@@ -14,8 +14,9 @@ const gulp = require('gulp'), //本地安装gulp所用到的地方
     runSequence = require('run-sequence');   // 顺序执行
 
 /**
- * 
+ *  因为微信浏览器缓存机制导致 使用hash值的js 一旦更改，发布到线上，缓存原因就会导致之前的js找不到了，（我的发现是这样子的，js里面的代码根本没有执行，所以这样猜想。所以取消对js的hash设置就解决了这个问题！）
  */
+
 /*静态文件地址*/
 const paths = {
     views: 'src/views/',
