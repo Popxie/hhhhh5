@@ -13,6 +13,13 @@ new Vue({
         },
     },
     created() {
+        // 解决静态资源缓存问题 导致页面需要手动刷新才能获取最新的代码 bug
+        const tiem = new Date().getTime()
+        const newUrl = `${window.location.href}?v=${tiem}`
+        if (window.location.href.indexOf('?') === -1) {
+            window.location.href = newUrl
+            return
+        }
         // document.cookie = 'driver_id=14930'  // 14930 自己    3621
         const driverId = this.getCookie('driver_id')
         if (driverId) {
