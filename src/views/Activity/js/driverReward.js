@@ -2,31 +2,28 @@ new Vue({
     el: '#app',
     data: {
         initShow: false,
-        isShowDefaut: false,
+        isShowDefaut: null,
         api: {
             // url: 'http://test-api.mobilemart.cn/driver-web/tag', // 测试
             url: 'https://api.mobilemart.cn/driver-web/tag', // 线上
         },
-        path: {
-            tag: '',
-        },
     },
     created() {
-        // 解决静态资源缓存问题 导致页面需要手动刷新才能获取最新的代码 bug
-        const tiem = new Date().getTime()
-        const newUrl = `${window.location.href}?v=${tiem}`
-        if (window.location.href.indexOf('?') === -1) {
-            window.location.href = newUrl
-            return
-        }
         // document.cookie = 'driver_id=14930'  // 14930 自己    3621
         const driverId = this.getCookie('driver_id')
         if (driverId) {
-            this.getTag(driverId);
-            this.initShow = true
+            // 解决静态资源缓存问题 导致页面需要手动刷新才能获取最新的代码 bug
+            const time = new Date().getTime()
+            const newUrl = `${window.location.href}?v=${time}`
+            if (window.location.href.indexOf('?') === -1) {
+                window.location.href = newUrl
+                return
+            }
+            this.getTag(driverId)
         } else {
             // window.location.href = 'http://test.xiaojubianli.com/index.php/Wechat/Drivers/login'
-            window.location.href = 'https://mgo.18jian.cn/index.php/Wechat/Drivers/login'
+            window.location.href =
+                'https://mgo.18jian.cn/index.php/Wechat/Drivers/login'
         }
     },
 
@@ -35,7 +32,7 @@ new Vue({
             this.$toast({
                 message: msg,
                 position: 'middle',
-                duration: 2000
+                duration: 2000,
             })
         },
         getCookie(key) {
@@ -47,22 +44,29 @@ new Vue({
             return null
         },
         getTag(driverId) {
-            let self = this;
-            self.$http.get(`${this.api.url}/${driverId}`)
-                .then((res) => {
+            let self = this
+            self.$http.get(`${this.api.url}/${driverId}`).then(
+                res => {
                     const result = res.data
                     const item = result.data.data
-                    this.initShow = true
-                    if (result.error_code === 0 && item && item.workType === 11) {
+                    if (
+                        result.error_code === 0 &&
+                        item &&
+                        (item.workType === 11 || item.workType === 13)
+                    ) {
+                        this.initShow = true
                         this.isShowDefaut = false
                         return
                     }
-                    this.isShowDefaut = true
-                }, (err) => {
-                    self.alertFn('网络异常请稍后再试');
                     this.initShow = true
                     this.isShowDefaut = true
-                })
+                },
+                err => {
+                    self.alertFn('网络异常请稍后再试')
+                    this.initShow = true
+                    this.isShowDefaut = true
+                },
+            )
         },
-    }
+    },
 })

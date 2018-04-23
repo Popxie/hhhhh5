@@ -13,7 +13,9 @@ const gulp = require('gulp'), //本地安装gulp所用到的地方
     rename = require('gulp-rename'),        // 重命名
     runSequence = require('run-sequence');   // 顺序执行
 
-
+/**
+ * 
+ */
 /*静态文件地址*/
 const paths = {
     views: 'src/views/',
@@ -66,10 +68,10 @@ gulp.task('minifyjsForActivity', function () {
             presets: ['es2015']
         }))                     // 编译es6 => es5   需要（npm install --save-dev gulp-babel babel-preset-es2015）
         .pipe(uglify())         // 压缩js
-        .pipe(rev())            // 添加md5签名  set hash key
+        // .pipe(rev())            // 添加md5签名  set hash key
         .pipe(gulp.dest(outPaths.build + 'views/Activity/js')) // 输出
-        .pipe(rev.manifest('js-rev.json')) // set hash key json
-        .pipe(gulp.dest(outPaths.build + 'rev'))   // 将 rev-manifest.json 保存到 rev 目录内
+        // .pipe(rev.manifest('js-rev.json')) // set hash key json
+        // .pipe(gulp.dest(outPaths.build + 'rev'))   // 将 rev-manifest.json 保存到 rev 目录内
 });
 
 gulp.task('minifyhtmlActivity', function () {
