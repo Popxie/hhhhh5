@@ -4,9 +4,8 @@ new Vue({
         initShow: false,
         isShowDefaut: false,
         api: {
-            url: 'http://test-api.mobilemart.cn/driver-web/tag', // 测试
-            // url: 'https://api.mobilemart.cn/driver-web/tag', // 线上
-            // url: 'https://mgoapi.18jian.cn/driver-web/tag', // 线上
+            // url: 'http://test-api.mobilemart.cn/driver-web/tag', // 测试
+            url: 'https://api.mobilemart.cn/driver-web/tag', // 线上
         },
         path: {
             tag: '',
@@ -24,9 +23,10 @@ new Vue({
         const driverId = this.getCookie('driver_id')
         if (driverId) {
             this.getTag(driverId);
+            this.initShow = true
         } else {
-            window.location.href = 'http://test.xiaojubianli.com/index.php/Wechat/Drivers/login'
-            // window.location.href = 'https://mgo.18jian.cn/index.php/Wechat/Drivers/login'
+            // window.location.href = 'http://test.xiaojubianli.com/index.php/Wechat/Drivers/login'
+            window.location.href = 'https://mgo.18jian.cn/index.php/Wechat/Drivers/login'
         }
     },
 
