@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1"
+        />
+        <meta http-equiv="pragma" content="no-cache" />
+        <meta http-equiv="cache-control" content="no-cache" />
+        <meta http-equiv="expires" content="0" />
+        <title>邀请车主赚佣金</title>
+        <link rel="icon" type="image/x-icon" href="./img/favicon.ico" />
+        <link rel="stylesheet" href="./css/getMoreMoney.css" />
+        <link rel="stylesheet" href="./css/mint-ui.min.css" />
+    </head>
+    <body>
+        <div id="app" v-cloak class="container">
+            <div class="top-cont">
+                <img class="img-style" src="./img/img_beiyaoqing.png" alt="" />
+            </div>
+            <div class="middle-cont">
+                <div class="middle-top-cont">
+                    <div class="avatar-cont">
+                        <img :src="driverInfo.img" alt="" />
+                    </div>
+                    <div class="friend-name">
+                        你的好友{{ driverInfo.realname }}
+                    </div>
+                </div>
+                <div class="desc-cont">
+                    最近在用“魔急便车主”APP，不仅能赚钱，还能省钱，你也来试试吧
+                </div>
+                <div class="button-cont">
+                    <div class="button" @click="chooseCityClick">
+                        {{ formInfo.cityName || '未知' }}
+                    </div>
+                </div>
+                <div v-if="isShowRules">
+                    <div v-if="!hasGetRedPackage">
+                        <div class="input-cont">
+                            <input
+                                type="text"
+                                maxlength="11"
+                                v-model="formInfo.tel"
+                                placeholder="输入手机号"
+                            />
+                        </div>
+                        <button
+                            class="red-bag-button"
+                            @click="getRedPackageClick"
+                        >
+                            收下红包
+                        </button>
+                    </div>
+                    <div v-else>
+                        <div class="coupon-cont">
+                            <div class="line"></div>
+                            <div class="bottom-cont">
+                                <div class="left-cont">
+                                    最高<span>99</span>元
+                                </div>
+                                <div class="right-cont">加油专属红包</div>
+                            </div>
+                        </div>
+                        <div class="message">
+                            红包已经放到{{
+                                this.formInfo.tel
+                            }}的账户中，登陆app查看
+                        </div>
+                        <button class="red-bag-button" @click="checkClick">
+                            立即查看
+                        </button>
+                    </div>
+                </div>
+                <div v-else>
+                    <div class="icon-cont">
+                        <img src="./img/img_ku.png" alt="" />
+                    </div>
+                    <div class="message">
+                        您所在的城市暂未开通活动，敬请期待
+                    </div>
+                </div>
+            </div>
+            <mt-popup
+                v-model="popupVisible"
+                position="middle"
+                popup-transition="popup-fade"
+                :close-on-click-modal="false"
+            >
+                <div class="popup-title">选择所在城市</div>
+                <div class="city-item-cont">
+                    <div
+                        class="city-item"
+                        :class="{'choose-style': item.isChoosed}"
+                        v-for="(item, index) in cityList"
+                        @click="cityClick(item, index)"
+                    >
+                        {{ item.cityName }}
+                    </div>
+                </div>
+            </mt-popup>
+            <div class="foot-cont" v-show="isShowRules">
+                <div class="rules">活动规则</div>
+                <div class="desc">活动范围：限上海</div>
+                <div class="desc">活动对象：网约车主</div>
+                <div class="desc">其他城市不参与本活动</div>
+            </div>
+        </div>
+        <script src="./commonJs/lib-flexible.js"></script>
+        <script src="./commonJs/axios_mint.js"></script>
+        <script src="./js/getMoreMoney.js"></script>
+    </body>
+</html>
