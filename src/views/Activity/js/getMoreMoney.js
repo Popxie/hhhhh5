@@ -2,8 +2,10 @@ new Vue({
     el: '#app',
     data: {
         popupVisible: true,
+        isShowCoupon: false,
         api: {
             baseUrl: 'http://dev-api.mobilemart.cn', // 测试
+            // baseUrl: 'https://test-api.mobilemart.cn', // 预发
             // baseUrl: 'https://api.mobilemart.cn', // 线上
         },
         path: {
@@ -11,10 +13,12 @@ new Vue({
             getRedPacket: '/driver-center-api/invite/redpacket',
         },
         driverInfo: {}, // 邀请人的昵称和头像
+        message: '',
         isInit: false,
         isShowRules: false, // 活动规则
         hasGetRedPackage: false, // 是否已领取
-        cityList: [{
+        cityList: [
+            {
                 cityName: '上海',
                 citySn: '310100',
                 isChoosed: false,
@@ -91,13 +95,13 @@ new Vue({
          * 立即查看
          */
         checkClick() {
-
+            window.location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.mgo.driver'
         },
         /**
          *
          * @param {获取url中的openId} name
          */
-        getOpenId(name, url) {
+        getDriverCode(name, url) {
             const reg = new RegExp('(^|\\?|&)' + name + '=([^&]*)(\\s|&|$)', 'i')
             if (reg.test(url)) {
                 return unescape(RegExp.$2.replace(/\+/g, ' '))
@@ -113,16 +117,22 @@ new Vue({
                 url: this.api.baseUrl + this.path.getRedPacket,
                 data: this.formInfo,
                 headers: {
-                    openId: this.getOpenId('openId', window.location.href)
+                    driverCode: this.getDriverCode('driverCode', window.location.href)
                 }
             }).then(res => {
-                const error_code = res.data.error_code
+                const { error_code, data: { type, message}, err_msg} = res.data
                 // error_code: 0 表示成功 其他都是失败
                 if (error_code !== 0) {
-                    this.alertFn(res.data.err_msg)
+                    this.alertFn(err_msg)
                     return
                 }
+                this.message = message
                 this.hasGetRedPackage = true
+                if (type === 1) {
+                    this.isShowCoupon = true
+                } else {
+                    this.isShowCoupon = false
+                }
             }, e => {
                 this.alertFn(e.message)
             })
@@ -135,7 +145,7 @@ new Vue({
                 method: 'get',
                 url: this.api.baseUrl + this.path.getAvatarAndNameUrl,
                 headers: {
-                    openId: this.getOpenId('openId', window.location.href)
+                    driverCode: this.getDriverCode('driverCode', window.location.href)
                 }
             }).then(res => {
                 this.driverInfo = res.data.data

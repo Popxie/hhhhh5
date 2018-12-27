@@ -30,10 +30,10 @@ body {
   justify-content: space-around;
 }
 .container .city-item {
-  min-width: 1.73333333rem;
-  height: 0.66666667rem;
+  min-width: 2.13333333rem;
+  height: 0.8rem;
   text-align: center;
-  line-height: 0.66666667rem;
+  line-height: 0.8rem;
   border: 0.02666667rem solid #a0a0a0;
   border-radius: 0.06666667rem;
   margin: 0.26666667rem;
@@ -48,7 +48,7 @@ body {
   height: 7.06666667rem;
 }
 .container .top-cont .img-style {
-  width: 10rem;
+  width: 100%;
   height: 7.06666667rem;
 }
 .container .middle-cont .middle-top-cont {
@@ -84,15 +84,26 @@ body {
 }
 .container .middle-cont .button-cont .button {
   position: absolute;
-  right: 0.26666667rem;
+  right: 0.33333333rem;
   width: 1.93333333rem;
   height: 0.66666667rem;
   line-height: 0.66666667rem;
-  text-align: center;
   border-radius: 0.33333333rem;
   border: 1px solid #a0a0a0;
   font-size: 0.32rem;
-  color: #ff7e32;
+  color: #333333;
+}
+.container .middle-cont .button-cont .button .button-son {
+  padding-left: 0.18666667rem;
+  width: 1.09333333rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+.container .middle-cont .button-cont .button .button-son .btn-icon {
+  width: 0.4rem;
+  height: 0.4rem;
 }
 .container .middle-cont .input-cont {
   width: 9.33333333rem;
@@ -110,6 +121,7 @@ body {
 }
 .container .middle-cont .red-bag-button {
   background: #ff3b3b;
+  color: white;
   border: none;
   font-size: 0.48rem;
   width: 9.33333333rem;
@@ -149,11 +161,19 @@ body {
   margin-top: 0.8rem;
   margin-left: 2.4rem;
 }
-.container .middle-cont .message {
+.container .middle-cont .message,
+.container .middle-cont .message-copy {
   text-align: center;
   color: #666666;
   font-size: 0.26666667rem;
   margin: 0.26666667rem auto;
+}
+.container .middle-cont .message-copy {
+  font-size: 0.53333333rem;
+}
+.container .middle-cont .big-font {
+  font-size: 0.34666667rem;
+  padding: 0.26666667rem 0;
 }
 .container .middle-cont .icon-cont {
   margin: 0.66666667rem auto;

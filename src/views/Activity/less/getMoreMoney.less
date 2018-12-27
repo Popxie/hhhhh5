@@ -30,10 +30,10 @@ body {
         justify-content: space-around;
     }
     .city-item {
-        min-width: 130 / @7;
-        height: 50 / @7;
+        min-width: 160 / @7;
+        height: 60 / @7;
         text-align: center;
-        line-height: 50 / @7;
+        line-height: 60 / @7;
         border: 2 / @7 solid #a0a0a0;
         border-radius: 5 / @7;
         margin: 20 / @7;
@@ -47,7 +47,7 @@ body {
     .top-cont {
         height: 530 / @7;
         .img-style {
-            width: 750 / @7;
+            width: 100%;
             height: 530 / @7;
         }
     }
@@ -84,15 +84,26 @@ body {
             height: 50 / @7;
             .button {
                 position: absolute;
-                right: 20 / @7;
+                right: 25 / @7;
                 width: 145 / @7;
                 height: 50 / @7;
                 line-height: 50 / @7;
-                text-align: center;
                 border-radius: 25 / @7;
                 border: 1px solid #a0a0a0;
                 font-size: 24 / @7;
-                color: #ff7e32;
+                color: #333333;
+                .button-son {
+                    padding-left: 14 / @7;
+                    width: 82 / @7;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin: 0 auto;
+                    .btn-icon {
+                        width: 30 / @7;
+                        height: 30 / @7;
+                    }
+                }
             }
         }
         .input-cont {
@@ -111,6 +122,7 @@ body {
         }
         .red-bag-button {
             background: #ff3b3b;
+            color: white;
             border: none;
             font-size: 36 / @7;
             width: 700 / @7;
@@ -123,7 +135,7 @@ body {
             height: 170 / @7;
             margin: 20 / @7;
             background: #ffffff;
-            box-shadow:0px 4px 2px 0px rgba(185,185,185,0.5);
+            box-shadow: 0px 4px 2px 0px rgba(185, 185, 185, 0.5);
             .line {
                 width: 216 / @7;
                 height: 16 / @7;
@@ -155,6 +167,10 @@ body {
             color: #666666;
             font-size: 20 / @7;
             margin: 20 / @7 auto;
+        }
+        .big-font {
+            font-size: 26 / @7;
+            padding: 20 / @7 0;
         }
         .icon-cont {
             margin: 50 / @7 auto;
