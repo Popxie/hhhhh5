@@ -4,9 +4,9 @@ new Vue({
         popupVisible: true,
         isShowCoupon: false,
         api: {
-            baseUrl: 'http://dev-api.mobilemart.cn', // 测试
+            // baseUrl: 'http://dev-api.mobilemart.cn', // 测试
             // baseUrl: 'https://test-api.mobilemart.cn', // 预发
-            // baseUrl: 'https://api.mobilemart.cn', // 线上
+            baseUrl: 'https://api.mobilemart.cn', // 线上
         },
         path: {
             getAvatarAndNameUrl: '/driver-center-api/invite/driver',
@@ -89,6 +89,9 @@ new Vue({
                 this.alertFn('请填写手机号')
                 return
             }
+            sa.track('GetRedPackage', {
+                title: '收下红包按钮'
+            })
             this.getRedPackage()
         },
         /**
@@ -127,6 +130,9 @@ new Vue({
                     return
                 }
                 this.message = message
+                sa.track('GetRedPackageSucc', {
+                    title: '成功收下红包'
+                })
                 this.hasGetRedPackage = true
                 if (type === 1) {
                     this.isShowCoupon = true
@@ -150,7 +156,9 @@ new Vue({
             }).then(res => {
                 this.driverInfo = res.data.data
                 // 加密名字
-                this.driverInfo.realname = this.driverInfo.realname.replace(/.(?=.)/g, '*')
+                if (this.driverInfo.realname) {
+                    this.driverInfo.realname = this.driverInfo.realname.replace(/.(?=.)/g, '*')
+                }
             })
         }
     },

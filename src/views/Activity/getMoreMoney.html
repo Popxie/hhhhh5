@@ -1,110 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1"
+        />
+        <meta http-equiv="pragma" content="no-cache" />
+        <meta http-equiv="cache-control" content="no-cache" />
+        <meta http-equiv="expires" content="0" />
+        <title>邀请车主赚佣金</title>
+        <link rel="icon" type="image/x-icon" href="./img/favicon.ico" />
+        <link rel="stylesheet" href="./css/getMoreMoney.css" />
+        <link rel="stylesheet" href="./css/mint-ui.min.css" />
+        <script src="./commonJs/vconsole.min.js"></script>
+        <script>
+            ;(function(para) {
+                var p = para.sdk_url,
+                    n = para.name,
+                    w = window,
+                    d = document,
+                    s = 'script',
+                    x = null,
+                    y = null
+                if (typeof w['sensorsDataAnalytic201505'] !== 'undefined') {
+                    return false
+                }
+                w['sensorsDataAnalytic201505'] = n
+                w[n] =
+                    w[n] ||
+                    function(a) {
+                        return function() {
+                            ;(w[n]._q = w[n]._q || []).push([a, arguments])
+                        }
+                    }
+                var ifs = [
+                    'track',
+                    'quick',
+                    'register',
+                    'registerPage',
+                    'registerOnce',
+                    'trackSignup',
+                    'trackAbtest',
+                    'setProfile',
+                    'setOnceProfile',
+                    'appendProfile',
+                    'incrementProfile',
+                    'deleteProfile',
+                    'unsetProfile',
+                    'identify',
+                    'login',
+                    'logout',
+                    'trackLink',
+                    'clearAllRegister',
+                    'getAppStatus',
+                ]
+                for (var i = 0; i < ifs.length; i++) {
+                    w[n][ifs[i]] = w[n].call(null, ifs[i])
+                }
+                if (!w[n]._t) {
+                    ;(x = d.createElement(s)),
+                        (y = d.getElementsByTagName(s)[0])
+                    x.async = 1
+                    x.src = p
+                    x.setAttribute('charset', 'UTF-8')
+                    y.parentNode.insertBefore(x, y)
+                    w[n].para = para
+                }
+            })({
+                sdk_url:
+                    'http://static.sensorsdata.cn/sdk/1.12.6/sensorsdata.min.js',
+                heatmap_url:
+                    'http://static.sensorsdata.cn/sdk/1.12.6/heatmap.min.js',
+                name: 'sa',
+                // server_url: 'http://api-data.mobilemart.cn/sa?project=default',
+                server_url: 'https://api-data.mobilemart.cn/sa?project=production',
+            })
+            sa.registerPage({
+                app_name: 'mgo_driver',
+                platformType: 'app',
+                // env: 'dev',
+                env: 'prod',
+            })
+            sa.quick('autoTrack')
+        </script>
+    </head>
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta http-equiv="pragma" content="no-cache" />
-    <meta http-equiv="cache-control" content="no-cache" />
-    <meta http-equiv="expires" content="0" />
-    <title>邀请车主赚佣金</title>
-    <link rel="icon" type="image/x-icon" href="./img/favicon.ico" />
-    <link rel="stylesheet" href="./css/getMoreMoney.css" />
-    <link rel="stylesheet" href="./css/mint-ui.min.css" />
-    <script src="./commonJs/vconsole.min.js"></script>
-</head>
-
-<body>
-    <div id="app" v-cloak class="container">
-        <div class="top-cont">
-            <img class="img-style" src="./img/img_beiyaoqing.png" alt="" />
-        </div>
-        <div class="middle-cont">
-            <div class="middle-top-cont">
-                <div class="avatar-cont">
-                    <img :src="driverInfo.img" alt="" />
-                </div>
-                <div class="friend-name">
-                    你的好友{{ driverInfo.realname }}
-                </div>
+    <body>
+        <div id="app" v-cloak class="container">
+            <div class="top-cont">
+                <img class="img-style" src="./img/img_beiyaoqing.png" alt="" />
             </div>
-            <div class="desc-cont">
-                最近在用“魔急便车主”APP，不仅能赚钱，还能省钱，你也来试试吧
-            </div>
-            <div class="button-cont">
-                <div class="button" @click="chooseCityClick">
-                    <div class="button-son">
-                        <span>
-                            {{ formInfo.cityName || '未知' }}
-                        </span>
-                        <img class="btn-icon" src="./img/right.png" alt="">
+            <div class="middle-cont">
+                <div class="middle-top-cont">
+                    <div class="avatar-cont">
+                        <img :src="driverInfo.img" alt="" />
                     </div>
-
-                </div>
-            </div>
-            <div v-if="isShowRules">
-                <div v-if="!hasGetRedPackage">
-                    <div class="input-cont">
-                        <input type="number" maxlength="11" v-model="formInfo.tel" placeholder="输入手机号" />
+                    <div class="friend-name">
+                        你的好友{{ driverInfo.realname }}
                     </div>
-                    <button class="red-bag-button" @click="getRedPackageClick">
-                        收下红包
-                    </button>
                 </div>
-                <div v-else>
-                    <div class="coupon-cont" v-show="isShowCoupon">
-                        <div class="line"></div>
-                        <div class="bottom-cont">
-                            <div class="left-cont">
-                                最高<span>99</span>元
-                            </div>
-                            <div class="right-cont">加油专属红包</div>
+                <div class="desc-cont">
+                    最近在用“魔急便车主”APP，不仅能赚钱，还能省钱，你也来试试吧
+                </div>
+                <div class="button-cont">
+                    <div class="button" @click="chooseCityClick">
+                        <div class="button-son">
+                            <span> {{ formInfo.cityName || '未知' }} </span>
+                            <img
+                                class="btn-icon"
+                                src="./img/right.png"
+                                alt=""
+                            />
                         </div>
                     </div>
-                    <div class="message" :class="{'big-font': !isShowCoupon}">
-                        {{message}}
+                </div>
+                <div v-if="isShowRules">
+                    <div v-if="!hasGetRedPackage">
+                        <div class="input-cont">
+                            <input
+                                type="number"
+                                maxlength="11"
+                                v-model="formInfo.tel"
+                                placeholder="输入手机号"
+                            />
+                        </div>
+                        <button
+                            ref="getRedPackageRef"
+                            id="getRedPackage"
+                            class="red-bag-button"
+                            @click="getRedPackageClick"
+                        >
+                            收下红包
+                        </button>
                     </div>
-                    <button class="red-bag-button" @click="checkClick">
-                        立即查看
-                    </button>
+                    <div v-else>
+                        <div class="coupon-cont" v-show="isShowCoupon">
+                            <div class="line"></div>
+                            <div class="bottom-cont">
+                                <div class="left-cont">
+                                    最高<span>99</span>元
+                                </div>
+                                <div class="right-cont">加油专属红包</div>
+                            </div>
+                        </div>
+                        <div
+                            class="message"
+                            :class="{'big-font': !isShowCoupon}"
+                        >
+                            {{ message }}
+                        </div>
+                        <button class="red-bag-button" @click="checkClick">
+                            立即查看
+                        </button>
+                    </div>
+                </div>
+                <div v-else>
+                    <div class="icon-cont">
+                        <img src="./img/img_ku.png" alt="" />
+                    </div>
+                    <div class="message">
+                        您所在的城市暂未开通活动，敬请期待
+                    </div>
                 </div>
             </div>
-            <div v-else>
-                <div class="icon-cont">
-                    <img src="./img/img_ku.png" alt="" />
+            <mt-popup
+                v-model="popupVisible"
+                position="middle"
+                popup-transition="popup-fade"
+                :close-on-click-modal="false"
+            >
+                <div class="popup-title">选择所在城市</div>
+                <div class="city-item-cont">
+                    <div
+                        class="city-item"
+                        :class="{'choose-style': item.isChoosed}"
+                        v-for="(item, index) in cityList"
+                        @click="cityClick(item, index)"
+                    >
+                        {{ item.cityName }}
+                    </div>
                 </div>
-                <div class="message">
-                    您所在的城市暂未开通活动，敬请期待
-                </div>
+            </mt-popup>
+            <div class="foot-cont" v-show="isShowRules">
+                <div class="rules">活动规则</div>
+                <div class="desc">活动范围：限上海</div>
+                <div class="desc">活动对象：网约车主</div>
+                <div class="desc">其他城市不参与本活动</div>
             </div>
         </div>
-        <mt-popup v-model="popupVisible" position="middle" popup-transition="popup-fade" :close-on-click-modal="false">
-            <div class="popup-title">选择所在城市</div>
-            <div class="city-item-cont">
-                <div class="city-item" :class="{'choose-style': item.isChoosed}" v-for="(item, index) in cityList"
-                    @click="cityClick(item, index)">
-                    {{ item.cityName }}
-                </div>
-            </div>
-        </mt-popup>
-        <div class="foot-cont" v-show="isShowRules">
-            <div class="rules">活动规则</div>
-            <div class="desc">活动范围：限上海</div>
-            <div class="desc">活动对象：网约车主</div>
-            <div class="desc">其他城市不参与本活动</div>
-        </div>
-    </div>
-    <!-- <script>
+        <!-- <script>
         // 初始化
         var vConsole = new VConsole();
     </script> -->
-    <script src="./commonJs/sensorsdata.js"></script>
-    <script>
-        sa.init()
-    </script>
-    <script src="./commonJs/lib-flexible.js"></script>
-    <script src="./commonJs/axios_mint.js"></script>
-    <script src="./js/getMoreMoney.js"></script>
-</body>
-
+        <script src="./commonJs/lib-flexible.js"></script>
+        <script src="./commonJs/axios_mint.js"></script>
+        <script src="./js/getMoreMoney.js"></script>
+    </body>
 </html>
