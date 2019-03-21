@@ -4,9 +4,9 @@ new Vue({
         popupVisible: true,
         isShowCoupon: false,
         api: {
-            // baseUrl: 'http://dev-api.mobilemart.cn', // 测试
+            baseUrl: 'http://dev-api.mobilemart.cn', // 测试
             // baseUrl: 'https://test-api.mobilemart.cn', // 预发
-            baseUrl: 'https://api.mobilemart.cn', // 线上
+            // baseUrl: 'https://api.mobilemart.cn', // 线上
         },
         path: {
             getAvatarAndNameUrl: '/driver-center-api/invite/driver',
@@ -89,6 +89,7 @@ new Vue({
                 this.alertFn('请填写手机号')
                 return
             }
+            sa.quick('trackHeatMap', this.$refs.GetRedPackageRef)
             sa.track('GetRedPackage', {
                 title: '收下红包按钮'
             })
@@ -98,6 +99,7 @@ new Vue({
          * 立即查看
          */
         checkClick() {
+            sa.quick('trackHeatMap', this.$refs.checkNowRef)
             window.location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.mgo.driver'
         },
         /**

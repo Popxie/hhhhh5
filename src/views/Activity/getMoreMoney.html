@@ -69,18 +69,19 @@
                 }
             })({
                 sdk_url:
-                    'http://static.sensorsdata.cn/sdk/1.12.6/sensorsdata.min.js',
+                    'https://static.sensorsdata.cn/sdk/1.12.7/sensorsdata.min.js',
                 heatmap_url:
-                    'http://static.sensorsdata.cn/sdk/1.12.6/heatmap.min.js',
+                    'https://static.sensorsdata.cn/sdk/1.12.7/heatmap.min.js',
                 name: 'sa',
-                // server_url: 'http://api-data.mobilemart.cn/sa?project=default',
-                server_url: 'https://api-data.mobilemart.cn/sa?project=production',
+                server_url: 'https://api-data.mobilemart.cn/sa?project=default',
+                // server_url: 'https://api-data.mobilemart.cn/sa?project=production',
+                heatmap: {},
             })
             sa.registerPage({
                 app_name: 'mgo_driver',
                 platformType: 'app',
-                // env: 'dev',
-                env: 'prod',
+                env: 'dev',
+                // env: 'prod',
             })
             sa.quick('autoTrack')
         </script>
@@ -129,7 +130,7 @@
                             ref="getRedPackageRef"
                             id="getRedPackage"
                             class="red-bag-button"
-                            @click="getRedPackageClick"
+                            @click="checkClick"
                         >
                             收下红包
                         </button>
@@ -150,7 +151,12 @@
                         >
                             {{ message }}
                         </div>
-                        <button class="red-bag-button" @click="checkClick">
+                        <button
+                            ref="checkNowRef"
+                            id="checkNow"
+                            class="red-bag-button"
+                            @click="checkClick"
+                        >
                             立即查看
                         </button>
                     </div>
